@@ -6,7 +6,17 @@ class ScheduleViewController: UIViewController {
         super.viewDidLoad()
         title = "Schedule"
         view.backgroundColor = .blue
+        
+        setupViews()
+        setupConstraints()
     }
     
+    private func setupViews() {
+        
+    }
+    
+    private func setupConstraints() {
+        
+    }
     
 }
