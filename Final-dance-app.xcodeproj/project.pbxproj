@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		62EAD8AA2A332296005DF467 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8A92A332296005DF467 /* AppDelegate.swift */; };
 		62EAD8AC2A332296005DF467 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8AB2A332296005DF467 /* SceneDelegate.swift */; };
-		62EAD8AE2A332296005DF467 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8AD2A332296005DF467 /* MainViewController.swift */; };
+		62EAD8AE2A332296005DF467 /* MainScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8AD2A332296005DF467 /* MainScreenVC.swift */; };
 		62EAD8B32A332297005DF467 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62EAD8B22A332297005DF467 /* Assets.xcassets */; };
 		62EAD8B62A332297005DF467 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62EAD8B42A332297005DF467 /* LaunchScreen.storyboard */; };
 		62EAD8C62A334359005DF467 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8C52A334359005DF467 /* MainViewModel.swift */; };
@@ -25,16 +25,19 @@
 		62EAD8F02A38FF35005DF467 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8EF2A38FF35005DF467 /* Layout.swift */; };
 		62EAD8F22A3A30D8005DF467 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8F12A3A30D8005DF467 /* Extension + UIViewController.swift */; };
 		62EAD8F42A3B1299005DF467 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8F32A3B1299005DF467 /* MainTabBar.swift */; };
-		62EAD8F72A3B4752005DF467 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8F62A3B4752005DF467 /* ScheduleViewController.swift */; };
+		62EAD8F72A3B4752005DF467 /* ScheduleScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8F62A3B4752005DF467 /* ScheduleScreenVC.swift */; };
 		62EAD8FB2A3B4823005DF467 /* ScheduleScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8FA2A3B4823005DF467 /* ScheduleScreenView.swift */; };
-		62EAD8FE2A3B7FBE005DF467 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8FD2A3B7FBE005DF467 /* ProfileViewController.swift */; };
+		62EAD8FE2A3B7FBE005DF467 /* ProfileScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8FD2A3B7FBE005DF467 /* ProfileScreenVC.swift */; };
+		62EAD9182A3E3C58005DF467 /* CalendarKit in Frameworks */ = {isa = PBXBuildFile; productRef = 62EAD9172A3E3C58005DF467 /* CalendarKit */; };
+		62EAD9E62A4788BA005DF467 /* ScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD9E52A4788BA005DF467 /* ScreenFactory.swift */; };
+		62EAD9E92A478EE4005DF467 /* ProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD9E82A478EE4005DF467 /* ProfileScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		62EAD8A62A332296005DF467 /* Final-dance-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Final-dance-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62EAD8A92A332296005DF467 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		62EAD8AB2A332296005DF467 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		62EAD8AD2A332296005DF467 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		62EAD8AD2A332296005DF467 /* MainScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenVC.swift; sourceTree = "<group>"; };
 		62EAD8B22A332297005DF467 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62EAD8B52A332297005DF467 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		62EAD8B72A332297005DF467 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,9 +54,11 @@
 		62EAD8EF2A38FF35005DF467 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		62EAD8F12A3A30D8005DF467 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 		62EAD8F32A3B1299005DF467 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
-		62EAD8F62A3B4752005DF467 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		62EAD8F62A3B4752005DF467 /* ScheduleScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenVC.swift; sourceTree = "<group>"; };
 		62EAD8FA2A3B4823005DF467 /* ScheduleScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenView.swift; sourceTree = "<group>"; };
-		62EAD8FD2A3B7FBE005DF467 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		62EAD8FD2A3B7FBE005DF467 /* ProfileScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenVC.swift; sourceTree = "<group>"; };
+		62EAD9E52A4788BA005DF467 /* ScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFactory.swift; sourceTree = "<group>"; };
+		62EAD9E82A478EE4005DF467 /* ProfileScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62EAD9182A3E3C58005DF467 /* CalendarKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				62EAD8BE2A3322B9005DF467 /* App */,
+				62EAD9E42A4788A0005DF467 /* Di */,
 				62EAD8C22A334268005DF467 /* ViewModels */,
 				62EAD8C12A33425B005DF467 /* ViewControllers */,
 				62EAD8C32A334282005DF467 /* Views */,
@@ -156,6 +163,7 @@
 			children = (
 				62EAD8E82A38E866005DF467 /* Main */,
 				62EAD8F92A3B4805005DF467 /* Schedule */,
+				62EAD9E72A4788E0005DF467 /* Profile */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -203,7 +211,7 @@
 		62EAD8F52A3B4722005DF467 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
-				62EAD8F62A3B4752005DF467 /* ScheduleViewController.swift */,
+				62EAD8F62A3B4752005DF467 /* ScheduleScreenVC.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -211,7 +219,7 @@
 		62EAD8F82A3B477D005DF467 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				62EAD8AD2A332296005DF467 /* MainViewController.swift */,
+				62EAD8AD2A332296005DF467 /* MainScreenVC.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -227,7 +235,23 @@
 		62EAD8FC2A3B7FA2005DF467 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				62EAD8FD2A3B7FBE005DF467 /* ProfileViewController.swift */,
+				62EAD8FD2A3B7FBE005DF467 /* ProfileScreenVC.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		62EAD9E42A4788A0005DF467 /* Di */ = {
+			isa = PBXGroup;
+			children = (
+				62EAD9E52A4788BA005DF467 /* ScreenFactory.swift */,
+			);
+			path = Di;
+			sourceTree = "<group>";
+		};
+		62EAD9E72A4788E0005DF467 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				62EAD9E82A478EE4005DF467 /* ProfileScreenView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -248,6 +272,9 @@
 			dependencies = (
 			);
 			name = "Final-dance-app";
+			packageProductDependencies = (
+				62EAD9172A3E3C58005DF467 /* CalendarKit */,
+			);
 			productName = "Final-dance-app";
 			productReference = 62EAD8A62A332296005DF467 /* Final-dance-app.app */;
 			productType = "com.apple.product-type.application";
@@ -276,6 +303,9 @@
 				Base,
 			);
 			mainGroup = 62EAD89D2A332296005DF467;
+			packageReferences = (
+				62EAD9162A3E3C58005DF467 /* XCRemoteSwiftPackageReference "CalendarKit" */,
+			);
 			productRefGroup = 62EAD8A72A332296005DF467 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -305,14 +335,16 @@
 				62EAD8F22A3A30D8005DF467 /* Extension + UIViewController.swift in Sources */,
 				62EAD8E02A379AD2005DF467 /* CardView.swift in Sources */,
 				62EAD8E72A38E732005DF467 /* ContainerVerticalStackView.swift in Sources */,
-				62EAD8AE2A332296005DF467 /* MainViewController.swift in Sources */,
+				62EAD8AE2A332296005DF467 /* MainScreenVC.swift in Sources */,
+				62EAD9E92A478EE4005DF467 /* ProfileScreenView.swift in Sources */,
 				62EAD8DB2A379394005DF467 /* MainScreenView.swift in Sources */,
 				62EAD8FB2A3B4823005DF467 /* ScheduleScreenView.swift in Sources */,
+				62EAD9E62A4788BA005DF467 /* ScreenFactory.swift in Sources */,
 				62EAD8AA2A332296005DF467 /* AppDelegate.swift in Sources */,
 				62EAD8EE2A38F03D005DF467 /* InfoView.swift in Sources */,
 				62EAD8AC2A332296005DF467 /* SceneDelegate.swift in Sources */,
-				62EAD8FE2A3B7FBE005DF467 /* ProfileViewController.swift in Sources */,
-				62EAD8F72A3B4752005DF467 /* ScheduleViewController.swift in Sources */,
+				62EAD8FE2A3B7FBE005DF467 /* ProfileScreenVC.swift in Sources */,
+				62EAD8F72A3B4752005DF467 /* ScheduleScreenVC.swift in Sources */,
 				62EAD8EA2A38EBD4005DF467 /* InfoContainerStackView.swift in Sources */,
 				62EAD8EC2A38EE4A005DF467 /* Button.swift in Sources */,
 				62EAD8E52A38DF2B005DF467 /* Label.swift in Sources */,
@@ -528,6 +560,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		62EAD9162A3E3C58005DF467 /* XCRemoteSwiftPackageReference "CalendarKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/richardtop/CalendarKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		62EAD9172A3E3C58005DF467 /* CalendarKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62EAD9162A3E3C58005DF467 /* XCRemoteSwiftPackageReference "CalendarKit" */;
+			productName = CalendarKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 62EAD89E2A332296005DF467 /* Project object */;
 }
