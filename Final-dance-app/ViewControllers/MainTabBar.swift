@@ -3,7 +3,7 @@ import UIKit
 class MainTabVC: UITabBarController {
     
     private var mainVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: MainViewController())
+        let controller = UINavigationController(rootViewController: MainScreenVC())
         
         let image = UIImage(systemName: "house.fill")
         let selectedImage = UIImage(systemName: "house.fill")
@@ -13,7 +13,7 @@ class MainTabVC: UITabBarController {
     }()
     
     private var scheduleVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ScheduleViewController())
+        let controller = UINavigationController(rootViewController: ScheduleScreenVC())
         
         let image = UIImage(systemName: "clock")
         let selectedImage = UIImage(systemName: "clock")
@@ -23,7 +23,7 @@ class MainTabVC: UITabBarController {
     }()
     
     private var profileVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ProfileViewController())
+        let controller = UINavigationController(rootViewController: ProfileScreenVC())
         
         let image = UIImage(systemName: "person.crop.circle")
         let selectedImage = UIImage(systemName: "person.crop.circle")

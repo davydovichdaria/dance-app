@@ -1,6 +1,6 @@
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainScreenVC: UIViewController {
     
     private var mainScreenView: MainScreenView {
         return self.view as! MainScreenView
