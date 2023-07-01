@@ -5,7 +5,6 @@ class ContainerVerticalStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-
         self.axis = .vertical
         self.spacing = 5
         self.alignment = .center
