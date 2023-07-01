@@ -4,6 +4,7 @@ enum LabelStyle: Int {
     case title
     case description
     case descriptionSmall
+    case time
 }
 
 class Label: UILabel {
@@ -14,6 +15,7 @@ class Label: UILabel {
         case .title: createTitleLabel(text: text)
         case .description: createDespriptionLabel(text: text)
         case .descriptionSmall: createDespriptionSmallLabel(text: text)
+        case .time: createTimeLabel(text: text)
         }
     }
     
@@ -40,6 +42,12 @@ class Label: UILabel {
         self.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         self.textColor = .lightGray
         self.numberOfLines = 2
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func createTimeLabel(text: String) {
+        self.text = text
+        self.font = UIFont.systemFont(ofSize: 16, weight: .light)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
