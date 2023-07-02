@@ -36,17 +36,17 @@ extension ScheduleEndpoint: Endpoint {
         case .getMonday:
             return "/api/rest/363a6410bba40afba865566208447d1012/monday"
         case .getTuesday:
-            return "/api/rest/a14241a4d6bb24621d3c3c6f93ea6ec314/tuesday"
+            return "/api/rest/7493d4ddb82ce9f72f47ad08c492575119/tuesday"
         case .getWednesday:
-            return "/api/rest/f419e28adc3fcf18fb4a7265965c5f4512/wednesday"
+            return "/api/rest/879ac331f524025429ee1278979a122717/wednesday"
         case .getThursday:
-            return "/api/rest/e1c2508f14289c99414363bb9a3731773/thursday"
+            return "/api/rest/9f46c91cbc845774f22d35804c895b2924/thursday"
         case .getFriday:
-            return "/api/rest/2bb5470e6c163afb61f9e6d0a8907a3e23/friday"
+            return "/api/rest/11f0884feb5a716b0381e9901d48be1e21/friday"
         case .getSaturday:
-            return "/api/rest/ab5025e99d17c4bce96893218c21c7b512/saturday"
+            return "/api/rest/50af57dc0f0adbdc1705c766f22db9326/saturday"
         case .getSunday:
-            return "/api/rest/9e66ddfc9df399f3f83ce26465c2c0362/sunday"
+            return "/api/rest/4be8df57bb37724af81ef1f42fec5dcd18/sunday"
         }
     }
     
