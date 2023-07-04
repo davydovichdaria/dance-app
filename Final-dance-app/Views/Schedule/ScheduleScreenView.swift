@@ -1,16 +1,6 @@
 import UIKit
 import CalendarKit
 
-enum Days: Int {
-    case monday
-    case tuesday
-    case wednesday
-    case thursday
-    case friday
-    case saturday
-    case sunday
-}
-
 class ScheduleScreenView: UIView {
     
     var schedule: [Int: [Schedule]] = [:]
@@ -23,10 +13,19 @@ class ScheduleScreenView: UIView {
     var saturdaySchedule: [Schedule] = []
     var sundaySchedule: [Schedule] = []
     
+    var onDateLabelSelected: ((Int)->())?
     
-    var calendarView: DayHeaderView = {
-        var calendarView = DayHeaderView(calendar: Calendar.autoupdatingCurrent)
-        
+    private lazy var calendarState: DayViewState = {
+            let state = DayViewState(date: Date(), calendar: Calendar.autoupdatingCurrent)
+            state.subscribe(client: self)
+            return state
+        }()
+    
+    lazy var calendarView: DayHeaderView = {
+        let calendar = Calendar.autoupdatingCurrent
+        var calendarView = DayHeaderView(calendar: calendar)
+        calendarView.state = calendarState
+
         var style = DayHeaderStyle()
         
         style.daySelector.inactiveBackgroundColor = .white
@@ -39,7 +38,7 @@ class ScheduleScreenView: UIView {
         calendarView.updateStyle(style)
         return calendarView
     }()
-    
+
     var scheduleTableView = ScheduleTableView()
     
     override init(frame: CGRect) {
@@ -72,7 +71,7 @@ class ScheduleScreenView: UIView {
             calendarView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             calendarView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            calendarView.heightAnchor.constraint(equalToConstant: 75)
+            calendarView.heightAnchor.constraint(equalToConstant: 90)
         ])
         
         NSLayoutConstraint.activate([
@@ -81,5 +80,16 @@ class ScheduleScreenView: UIView {
             scheduleTableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             scheduleTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+    }
+}
+
+extension ScheduleScreenView: DayViewStateUpdating {
+
+    func move(from oldDate: Date, to newDate: Date) {
+        print("$0: \(newDate)")
+        let calendar = Calendar.autoupdatingCurrent
+        let dayOfWeek = calendar.component(.weekday, from: newDate)
+        onDateLabelSelected?(dayOfWeek)
+        
     }
 }
