@@ -13,6 +13,8 @@ final class ScheduleTableView: UITableView {
         self.separatorInset.left = 100
         self.separatorInset.right = 10
         self.allowsSelection = false
+
+        
         self.dataSource = self
         self.delegate = self
         

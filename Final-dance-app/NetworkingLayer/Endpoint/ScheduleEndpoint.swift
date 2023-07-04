@@ -34,19 +34,19 @@ extension ScheduleEndpoint: Endpoint {
     var path: String {
         switch self {
         case .getMonday:
-            return "/api/rest/363a6410bba40afba865566208447d1012/monday"
+            return "/api/rest/1d63a4c4bc250fbb254d9aa1f6560c1619/monday"
         case .getTuesday:
-            return "/api/rest/7493d4ddb82ce9f72f47ad08c492575119/tuesday"
+            return "/api/rest/b2c2b66a8d8c402b6124b4c091cafa291/tuesday"
         case .getWednesday:
-            return "/api/rest/879ac331f524025429ee1278979a122717/wednesday"
+            return "/api/rest/ee6e6ae8f0423f831c4b8cf346791c9125/wednesday"
         case .getThursday:
-            return "/api/rest/9f46c91cbc845774f22d35804c895b2924/thursday"
+            return "/api/rest/1eb5af7ed0dbcf7c9dd4a3bbf60c86d93/thursday"
         case .getFriday:
-            return "/api/rest/11f0884feb5a716b0381e9901d48be1e21/friday"
+            return "/api/rest/9668a6dbe8b7bf13b0cc2cce72b4d6405/friday"
         case .getSaturday:
-            return "/api/rest/50af57dc0f0adbdc1705c766f22db9326/saturday"
+            return "/api/rest/dbfb95d934b68dd2037316d40a1a69264/saturday"
         case .getSunday:
-            return "/api/rest/4be8df57bb37724af81ef1f42fec5dcd18/sunday"
+            return "/api/rest/55bf2ffd2a522d28472c3883cf5f90b41/sunday"
         }
     }
     

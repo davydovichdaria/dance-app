@@ -3,26 +3,10 @@ import CalendarKit
 
 class ScheduleScreenVC: UIViewController {
     
-    var mondayScheduleAPI = MondayScheduleImpl.init()
-    var mondaySchedule: [Schedule] = []
+    var dayNow: Int = 0
     
-    var tuesdayScheduleAPI = TuesdayScheduleImpl.init()
-    var tuesdaySchedule: [Schedule] = []
-    
-    var wednesdayScheduleAPI = WednesdayScheduleImpl.init()
-    var wednesdaySchedule: [Schedule] = []
-    
-    var thursdayScheduleAPI = ThursdayScheduleImpl.init()
-    var thursdaySchedule: [Schedule] = []
-    
-    var fridayScheduleAPI = FridayScheduleImpl.init()
-    var fridaySchedule: [Schedule] = []
-    
-    var saturdayScheduleAPI = SaturdayScheduleImpl.init()
-    var saturdaySchedule: [Schedule] = []
-    
-    var sundayScheduleAPI = SundayScheduleImpl.init()
-    var sundaySchedule: [Schedule] = []
+    var scheduleAPI = ScheduleAPIImpl.init()
+    var schedule: [Schedule] = []
     
     private var scheduleScreenView: ScheduleScreenView {
         return self.view as! ScheduleScreenView
@@ -36,115 +20,50 @@ class ScheduleScreenVC: UIViewController {
         super.viewDidLoad()
         title = "Schedule"
         
-//        fetchMondaySchedule()
-//        fetchTuesdaySchedule()
-//        fetchWednesdaySchedule()
-//        fetchThursdaySchedule()
-//        fetchFridaySchedule()
-//        fetchSaturdaySchedule()
-        fetchSundaySchedule()
+        returnWeekDay()
         
-    }
-    
-    func fetchMondaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await mondayScheduleAPI.fetchSchedule()
-                mondaySchedule = scheduleResponse.monday ?? []
-                print(mondaySchedule.count)
-                scheduleScreenView.updateSchedule(mondaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
-            }
+        fetchDailySchedule(day: dayNow)
+        
+        scheduleScreenView.onDateLabelSelected = { day in
+            self.fetchDailySchedule(day: day)
         }
     }
     
-    func fetchTuesdaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await tuesdayScheduleAPI.fetchSchedule()
-                tuesdaySchedule = scheduleResponse.tuesday ?? []
-                print(tuesdaySchedule.count)
-                scheduleScreenView.updateSchedule(tuesdaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
-            }
-        }
+    func returnWeekDay() {
+        let calendar = Calendar.autoupdatingCurrent
+        let dateNow = Date()
+        let dayOfWeek = calendar.component(.weekday, from: dateNow)
+        self.dayNow = dayOfWeek
+        print(dayOfWeek)
     }
     
-    func fetchWednesdaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await wednesdayScheduleAPI.fetchSchedule()
-                wednesdaySchedule = scheduleResponse.wednesday ?? []
-                print(wednesdaySchedule.count)
-                scheduleScreenView.updateSchedule(wednesdaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
+    func fetchDailySchedule(day: Int) {
+            let weekDay = Days.init(rawValue: day)
+            
+            switch weekDay  {
+            case .sunday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSunday)
+            case .monday: fetchDaySchedule(endpoint: ScheduleEndpoint.getMonday)
+            case .tuesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getTuesday)
+            case .wednesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getWednesday)
+            case .thursday: fetchDaySchedule(endpoint: ScheduleEndpoint.getThursday)
+            case .friday: fetchDaySchedule(endpoint: ScheduleEndpoint.getFriday)
+            case .saturday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSaturday)
+            default: print("No data")
             }
         }
-    }
     
-    func fetchThursdaySchedule() {
+    func fetchDaySchedule(endpoint: Endpoint) {
         Task {
             do {
-                let scheduleResponse = try await thursdayScheduleAPI.fetchSchedule()
-                thursdaySchedule = scheduleResponse.thursday ?? []
-                print(thursdaySchedule.count)
-                scheduleScreenView.updateSchedule(thursdaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
-            }
-        }
-    }
+                let scheduleResponse = try await scheduleAPI.fetchSchedule(endpoint: endpoint)
+                    self.schedule = scheduleResponse.schedule
 
-    func fetchFridaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await fridayScheduleAPI.fetchSchedule()
-                fridaySchedule = scheduleResponse.friday ?? []
-                print(fridaySchedule.count)
-                scheduleScreenView.updateSchedule(fridaySchedule)
+                print(schedule.count)
+                scheduleScreenView.updateSchedule(schedule)
                 scheduleScreenView.scheduleTableView.reloadData()
             } catch {
                 print(error)
             }
         }
     }
-    
-    func fetchSaturdaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await saturdayScheduleAPI.fetchSchedule()
-                saturdaySchedule = scheduleResponse.saturday ?? []
-                print(saturdaySchedule.count)
-                scheduleScreenView.updateSchedule(saturdaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func fetchSundaySchedule() {
-        Task {
-            do {
-                let scheduleResponse = try await sundayScheduleAPI.fetchSchedule()
-                sundaySchedule = scheduleResponse.sunday ?? []
-                print(sundaySchedule.count)
-                scheduleScreenView.updateSchedule(sundaySchedule)
-                scheduleScreenView.scheduleTableView.reloadData()
-            } catch {
-                print(error)
-            }
-        }
-    }
-
-    
 }
-
-

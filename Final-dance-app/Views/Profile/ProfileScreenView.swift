@@ -1,6 +1,8 @@
 import UIKit
 
 class ProfileScreenView: UIView {
+
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -14,9 +16,10 @@ class ProfileScreenView: UIView {
     
     private func setupViews() {
         self.backgroundColor = .blue
+
     }
     
     private func setupConstraints() {
-        
+
     }
 }
