@@ -10,11 +10,7 @@ final class ClassesView: UIView {
     private let noClassesDescriptionLabel = Label(style: .description, text: "You are not signed up for training")
     
     private let goScheduleButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Go to the schedule", for: .normal)
-        button.setTitleColor(.blue.withAlphaComponent(0.6), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = Button(style: .purpleButton, text: "Go to the schedule")
         button.addTarget(self, action: #selector(scheduleButtonTapped), for: .touchUpInside)
         return button
     }()

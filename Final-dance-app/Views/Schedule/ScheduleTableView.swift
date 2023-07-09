@@ -3,6 +3,7 @@ import UIKit
 final class ScheduleTableView: UITableView {
     
     var schedule: [Schedule] = []
+    var onClassesCellSelected: ((Schedule)->())?
 
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: .zero, style: style)
@@ -12,9 +13,7 @@ final class ScheduleTableView: UITableView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.separatorInset.left = 100
         self.separatorInset.right = 10
-        self.allowsSelection = false
 
-        
         self.dataSource = self
         self.delegate = self
         
@@ -40,8 +39,13 @@ extension ScheduleTableView: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.reuseId, for: indexPath) as! ScheduleTableViewCell
         
         let schedule = schedule[indexPath.row]
-        
+        cell.selectionStyle = .none
         cell.update(schedule)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let classes = schedule[indexPath.row]
+        onClassesCellSelected?(classes)
     }
 }

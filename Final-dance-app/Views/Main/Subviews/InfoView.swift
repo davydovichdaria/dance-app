@@ -31,7 +31,7 @@ final class InfoView: UIView {
     
     private lazy var aboutStudioLabel = Label(style: .title, text: infoLabel)
     private lazy var aboutStudioDespriptionLabel = Label(style: .descriptionSmall, text: infoDescription)
-    private var aboutButton = Button(style: .chevron, text: "chevron.right")
+    var aboutButton = Button(style: .chevron, text: "chevron.right")
     
     init(image: String, label: String, description: String) {
         

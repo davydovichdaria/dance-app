@@ -2,6 +2,9 @@ import UIKit
 
 final class MainScreenView: UIView {
     
+    var onAboutButtonTapped: (()->())?
+    var onTrainersButtonTapped: (()->())?
+    
     private let menuScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .lightGray.withAlphaComponent(0.1)
@@ -21,12 +24,21 @@ final class MainScreenView: UIView {
     private var cardView = CardView()
     
     private let classesLabel = Label(style: .title, text: "My classes")
-    private var classesView = ClassesView()
+    var classesView = ClassesView()
     
     private let qwinersLabel = Label(style: .title, text: "Qwiners dance studio")
-    private let aboutStudioView = InfoView(image: "Default profile", label: "About studio", description: "Information about us, contact information and phone numbers")
-    private let trainersView = InfoView(image: "Default profile", label: "Trainers", description: "List of all the coaches of our club")
-    private let rentalView = InfoView(image: "Default profile", label: "Hall rental", description: "You can rent a hall in our studio")
+    
+    private let aboutStudioView: UIView = {
+        let view = InfoView(image: "Default profile", label: "About studio", description: "Information about us, contact information and phone numbers")
+        view.aboutButton.addTarget(self, action: #selector(aboutButtonTapped), for: .touchUpInside)
+        return view
+    }()
+    
+    private let trainersView: UIView = {
+        let view = InfoView(image: "Default profile", label: "Trainers", description: "List of all the coaches of our club")
+        view.aboutButton.addTarget(self, action: #selector(trainersButtonTapped), for: .touchUpInside)
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +52,14 @@ final class MainScreenView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func aboutButtonTapped() {
+        onAboutButtonTapped?()
+    }
+    
+    @objc func trainersButtonTapped() {
+        onTrainersButtonTapped?()
     }
 }
 
@@ -55,7 +75,6 @@ extension MainScreenView {
         menuStackView.addArrangedSubview(qwinersLabel)
         menuStackView.addArrangedSubview(aboutStudioView)
         menuStackView.addArrangedSubview(trainersView)
-        menuStackView.addArrangedSubview(rentalView)
     }
     
     private func setupConstraints() {

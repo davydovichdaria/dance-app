@@ -9,7 +9,7 @@ final class MainScreenVC: UIViewController {
     override func loadView() {
         self.view = MainScreenView(frame: Screen.bounds)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,11 +20,25 @@ final class MainScreenVC: UIViewController {
         
         navigationItem.rightBarButtonItem = notificationButton
         navigationItem.titleView = menuNavigationView
+        
+        mainScreenView.classesView.onScheduleButtonAction = {
+            self.tabBarController?.selectedIndex = 1
+        }
+        
+        mainScreenView.onAboutButtonTapped = {
+            self.navigationController?.pushViewController(AboutScreenVC(), animated: true)
+        }
+        
+        mainScreenView.onTrainersButtonTapped = {
+            self.navigationController?.pushViewController(TrainersScreenVC(), animated: true)
+        }
+
     }
     
     @objc func buttonTapped() {
         print("button tapped")
     }
+    
 }
 
 

@@ -89,7 +89,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(scheduleContainerStackView)
+        contentView.addSubview(scheduleContainerStackView)
         
         scheduleContainerStackView.addArrangedSubview(bulletStackView)
         scheduleContainerStackView.addArrangedSubview(timeStackView)
@@ -111,10 +111,10 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            scheduleContainerStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            scheduleContainerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-            scheduleContainerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            scheduleContainerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0)
+            scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+            scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
         ])
         
         NSLayoutConstraint.activate([

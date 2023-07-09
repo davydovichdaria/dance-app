@@ -1,11 +1,11 @@
 import UIKit
 
-final class CardView: UIView {
+class CardView: UIView {
     
-    private let cardImageView: UIImageView = {
+     var cardImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "Card")
-        imageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.5).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.5).isActive = true
         imageView.layer.shadowColor = UIColor.blue.cgColor
         imageView.layer.shadowOffset = CGSize(width: 0, height: 5)
         imageView.layer.shadowRadius = 11.0

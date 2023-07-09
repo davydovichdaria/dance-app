@@ -27,6 +27,16 @@ class ScheduleScreenVC: UIViewController {
         scheduleScreenView.onDateLabelSelected = { day in
             self.fetchDailySchedule(day: day)
         }
+        
+        
+        scheduleScreenView.scheduleTableView.onClassesCellSelected = { classes in
+            self.showDetailClasses(classes)
+        }
+    }
+    
+    func showDetailClasses(_ lesson: Schedule) {
+        let controller = DetailScreenVC()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func returnWeekDay() {
@@ -57,7 +67,6 @@ class ScheduleScreenVC: UIViewController {
             do {
                 let scheduleResponse = try await scheduleAPI.fetchSchedule(endpoint: endpoint)
                     self.schedule = scheduleResponse.schedule
-
                 print(schedule.count)
                 scheduleScreenView.updateSchedule(schedule)
                 scheduleScreenView.scheduleTableView.reloadData()

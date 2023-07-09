@@ -3,7 +3,7 @@ import CalendarKit
 
 class ScheduleScreenView: UIView {
     
-    var schedule: [Int: [Schedule]] = [:]
+    var schedule: [Schedule] = []
     
     var mondaySchedule: [Schedule] = []
     var tuesdaySchedule: [Schedule] = []
@@ -32,8 +32,9 @@ class ScheduleScreenView: UIView {
         style.daySelector.inactiveTextColor = .black
         style.daySelector.todayActiveBackgroundColor = UIColor(named: "dark purple") ?? .systemPink
         style.daySelector.todayActiveTextColor = .white
-        style.daySelector.selectedBackgroundColor = .systemPink.withAlphaComponent(0.5)
+        style.daySelector.selectedBackgroundColor = UIColor(named: "dark purple") ?? .systemPink
         style.daySelector.activeTextColor = .white
+        style.daySelector.todayInactiveTextColor = .black
         
         calendarView.updateStyle(style)
         return calendarView
@@ -55,7 +56,7 @@ class ScheduleScreenView: UIView {
     }
     
     func updateSchedule(_ schedule: [Schedule]) {
-        self.mondaySchedule = schedule
+        self.schedule = schedule
         scheduleTableView.update(schedule)
     }
     
