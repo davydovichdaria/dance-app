@@ -1,9 +1,7 @@
 import UIKit
-import CalendarKit
 
 class ProfileScreenVC: UIViewController {
 
-    
     var profileCardView: UIView = {
        var view = CardView.init()
         view.cardImageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.25).isActive = true

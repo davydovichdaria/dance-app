@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 enum Section: Int, CaseIterable {
     case trainers
@@ -7,18 +8,15 @@ enum Section: Int, CaseIterable {
 
 class TrainersScreenVC: UIViewController {
     
-    var trainers: [Trainer] = [] {
-        didSet {
-            print(trainers)
-            trainersTableView.reloadData()
-        }
-    }
+    //MARK: - MVVM
     
+    private var viewModel = TrainersViewModel.init()
+    private var viewSignal = PassthroughSubject<TrainersViewModel.ViewSignal, Never>()
+    private var subscribtion = Set<AnyCancellable>()
+    
+    var trainers: [Trainer] = []
     var onScheduleButtonTapped: (()->())?
-    
-    let trainerAPI = TrainersAPIImpl()
 
-    
     lazy var trainersTableView: UITableView = {
         var tableView = UITableView()
         
@@ -31,7 +29,6 @@ class TrainersScreenVC: UIViewController {
         tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: ContactsTableViewCell.reuseID)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -40,33 +37,36 @@ class TrainersScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchTrainers()
-        
         setupViews()
         setupConstraints()
+        
+        bind()
+        viewSignal.send(.initialLoading)
         
         self.onScheduleButtonTapped = {
             self.tabBarController?.selectedIndex = 1
         }
     }
     
-    func fetchTrainers() {
-        Task {
-            do {
-                let trainerResponse = try await trainerAPI.fetchTrainers()
-                self.trainers = trainerResponse.trainers
-                trainersTableView.reloadData()
-            } catch {
-                print(error)
+    public func bind() {
+        let output = viewModel.bind(signal: viewSignal.eraseToAnyPublisher())
+        
+        output.trainers
+            .receive(on: RunLoop.main)
+            .sink { trainers in
+                self.trainers = trainers
+                self.trainersTableView.reloadData()
             }
-        }
+            .store(in: &subscribtion)
     }
+}
 
+//MARK: - Layout configuration
+extension TrainersScreenVC {
     
     func setupViews() {
         view.backgroundColor = .white
         title = "Trainers"
-        
         view.addSubview(trainersTableView)
     }
     
@@ -78,9 +78,9 @@ class TrainersScreenVC: UIViewController {
             trainersTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0)
         ])
     }
-    
 }
 
+//MARK: - Table View
 extension TrainersScreenVC: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
