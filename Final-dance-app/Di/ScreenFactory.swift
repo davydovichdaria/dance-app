@@ -8,8 +8,6 @@ protocol ScreenFactory {
 
 final class ScreenFactoryImpl: ScreenFactory {
     
-    weak var di: DependencyContainer!
-    
     init() {}
     
     func makeMainScreen() -> MainScreenVC {
@@ -23,6 +21,4 @@ final class ScreenFactoryImpl: ScreenFactory {
     func makeProfileScreen() -> ProfileScreenVC {
         return ProfileScreenVC.init()
     }
-    
-    
 }
