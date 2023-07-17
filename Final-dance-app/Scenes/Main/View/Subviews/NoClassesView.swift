@@ -1,6 +1,6 @@
 import UIKit
 
-final class ClassesView: UIView {
+final class NoClassesView: UIView {
     
     var onScheduleButtonAction: (()->())? //объявили
     
@@ -31,7 +31,7 @@ final class ClassesView: UIView {
     }
 }
 
-extension ClassesView {
+extension NoClassesView {
     private func setupViews() {
         self.addSubview(classesContainerStackView)
         
@@ -42,7 +42,7 @@ extension ClassesView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            classesContainerStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+            classesContainerStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             classesContainerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
             classesContainerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             classesContainerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15)

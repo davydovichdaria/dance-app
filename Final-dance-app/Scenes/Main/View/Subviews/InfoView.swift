@@ -5,15 +5,17 @@ final class InfoView: UIView {
     private var infoImage: String
     private var infoLabel: String
     private var infoDescription: String
+    private var color: String
     
     private var aboutStudioContainer = InfoContainerStackView()
     
-    private lazy var aboutStudioImageView: UIImageView = {
+   private lazy var aboutStudioImageView: UIImageView = {
         var imageView = UIImageView()
-        imageView.image = UIImage(named: infoImage)
+        imageView.image = UIImage(systemName: infoImage)
         imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.contentMode = .scaleAspectFill
+       imageView.tintColor = UIColor(named: color)
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,12 +35,12 @@ final class InfoView: UIView {
     private lazy var aboutStudioDespriptionLabel = Label(style: .descriptionSmall, text: infoDescription)
     var aboutButton = Button(style: .chevron, text: "chevron.right")
     
-    init(image: String, label: String, description: String) {
+    init(image: String, color: String, label: String, description: String) {
         
         self.infoImage = image
         self.infoLabel = label
         self.infoDescription = description
-        
+        self.color = color
         super.init(frame: .zero)
         setupViews()
         setupConstraints()

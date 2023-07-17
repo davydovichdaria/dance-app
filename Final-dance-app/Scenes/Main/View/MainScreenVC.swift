@@ -2,9 +2,19 @@ import UIKit
 
 final class MainScreenVC: UIViewController {
     
+    
+    var classesArchiver = ClassesRepositoryImpl()
+    lazy var futureClasses: [DailyClasses] = classesArchiver.retrive()        {
+        didSet {
+            classesCollectionView.reloadData()
+        }
+    }
+    
+    
     private let menuScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        scrollView.alwaysBounceVertical = true
+        scrollView.backgroundColor = Colors().background
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -21,16 +31,37 @@ final class MainScreenVC: UIViewController {
     
     private var cardView = CardView()
     private let classesLabel = Label(style: .title, text: "My classes")
-    var classesView = ClassesView()
+    var noClassesView = NoClassesView()
+    
+    lazy var classesCollectionView: UICollectionView = {
+        
+        var layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 100)
+        layout.itemSize = CGSize(width: Screen.width * 0.8, height: Screen.width * 0.3)
+        layout.minimumLineSpacing = 15
+        layout.scrollDirection = .horizontal
+
+        
+        var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = Colors().background
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(ClassesCollectionViewCell.self, forCellWithReuseIdentifier: ClassesCollectionViewCell.reuseId)
+        collectionView.heightAnchor.constraint(equalToConstant: Screen.width * 0.35).isActive = true
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     private let qwinersLabel = Label(style: .title, text: "Qwiners dance studio")
     private let aboutStudioView: UIView = {
-        let view = InfoView(image: "Default profile", label: "About studio", description: "Information about us, contact information and phone numbers")
+        let view = InfoView(image: "star.circle.fill", color: "azure", label: "About studio", description: "Information about us, contact information and phone numbers")
         view.aboutButton.addTarget(self, action: #selector(aboutButtonTapped), for: .touchUpInside)
         return view
     }()
     
     private let trainersView: UIView = {
-        let view = InfoView(image: "Default profile", label: "Trainers", description: "List of all the coaches of our club")
+        let view = InfoView(image: "figure.walk.circle.fill", color: "orange", label: "Trainers", description: "List of all the coaches of our club")
         view.aboutButton.addTarget(self, action: #selector(trainersButtonTapped), for: .touchUpInside)
         return view
     }()
@@ -46,9 +77,16 @@ final class MainScreenVC: UIViewController {
         let menuNavigationView = createCustomTitleView(image: "Studio label")
         navigationItem.titleView = menuNavigationView
         
-        classesView.onScheduleButtonAction = {
+        noClassesView.onScheduleButtonAction = {
             self.tabBarController?.selectedIndex = 1
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        futureClasses = classesArchiver.retrive()
+        setupViews()
+        classesCollectionView.reloadData()
     }
 
     @objc func aboutButtonTapped() {
@@ -58,9 +96,25 @@ final class MainScreenVC: UIViewController {
     @objc func trainersButtonTapped() {
         self.navigationController?.pushViewController(TrainersScreenVC(), animated: true)
     }
+    
+    
+    func showClassesView() {
+        if futureClasses.count != 0 {
+//            menuStackView.removeArrangedSubview(noClassesView)
+            noClassesView.isHidden = true
+            classesCollectionView.isHidden = false
+
+        } else { menuStackView.addArrangedSubview(noClassesView)
+//            menuStackView.removeArrangedSubview(classesCollectionView)
+            
+            noClassesView.isHidden = false
+            classesCollectionView.isHidden = true
+        }
+    }
 }
 
 //MARK: - Layout configuration
+
 
 extension MainScreenVC {
     private func setupViews() {
@@ -68,10 +122,11 @@ extension MainScreenVC {
         
         view.addSubview(menuScrollView)
         menuScrollView.addSubview(menuStackView)
-        
         menuStackView.addArrangedSubview(cardView)
         menuStackView.addArrangedSubview(classesLabel)
-        menuStackView.addArrangedSubview(classesView)
+        menuStackView.addArrangedSubview(noClassesView)
+        menuStackView.addArrangedSubview(classesCollectionView)
+        showClassesView()
         menuStackView.addArrangedSubview(qwinersLabel)
         menuStackView.addArrangedSubview(aboutStudioView)
         menuStackView.addArrangedSubview(trainersView)
@@ -98,9 +153,7 @@ extension MainScreenVC {
             classesLabel.leadingAnchor.constraint(equalTo: menuStackView.leadingAnchor, constant: 15)
         ])
         
-        NSLayoutConstraint.activate([
-            classesView.topAnchor.constraint(equalTo: classesLabel.bottomAnchor, constant: 0),
-        ])
+
         
         NSLayoutConstraint.activate([
             qwinersLabel.leadingAnchor.constraint(equalTo: menuStackView.leadingAnchor, constant: 15)
@@ -112,4 +165,16 @@ extension MainScreenVC {
     }
 }
 
+extension MainScreenVC:  UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return futureClasses.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClassesCollectionViewCell.reuseId, for: indexPath) as! ClassesCollectionViewCell
+        let lesson = futureClasses[indexPath.row]
+        cell.update(lesson)
+        return cell
+    }
+}
 

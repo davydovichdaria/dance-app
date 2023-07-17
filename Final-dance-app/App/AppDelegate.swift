@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  Final-dance-app
-//
-//  Created by Daria Davydovich on 6/9/23.
-//
-
 import UIKit
 
 @main
