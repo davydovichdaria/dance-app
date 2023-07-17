@@ -1,14 +1,24 @@
 import UIKit
 
-final class ScheduleTableViewCell: UITableViewCell {
+final class ClassesCollectionViewCell: UICollectionViewCell {
     
-    static let reuseId = "ScheduleTableViewCell"
+    static let reuseId = "ClassesTableViewCell"
     
     private var scheduleContainerStackView: UIStackView = {
         var stackView = UIStackView()
+        stackView.backgroundColor = .white
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillProportionally
+        stackView.layer.cornerRadius = 20
+        
+        stackView.layer.shadowOffset = CGSize(width: 0, height: 5.0)
+        stackView.layer.shadowOpacity = 0.2
+        stackView.layer.shadowColor = UIColor.gray.cgColor
+        stackView.layer.shadowRadius = 11.0
+        stackView.layer.masksToBounds = false
+        
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -60,21 +70,11 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     private var nameLabel = Label(style: .title, text: "Girly choreo (beginner)")
     private var typeLabel = Label(style: .descriptionSmall, text: "Group lesson")
+    private var dayLabel = Label(style: .description, text: "default day")
     private var teacherLabel = Label(style: .descriptionSmall, text: "Veronica")
-    private var roomLabel = Label(style: .descriptionSmall, text: "White")
     
-    private var chevronStackView: UIStackView = {
-        var stackView = UIStackView()
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.directionalLayoutMargins.trailing = 10
-        stackView.widthAnchor.constraint(equalToConstant: Screen.width * 0.1).isActive = true
-        return stackView
-    }()
-    
-    private var chevronButton = Button(style: .chevron, text: "chevron.right")
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setupViews()
         setupConstraints()
@@ -86,11 +86,11 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     func setupViews() {
         contentView.addSubview(scheduleContainerStackView)
+   
         
         scheduleContainerStackView.addArrangedSubview(bulletStackView)
         scheduleContainerStackView.addArrangedSubview(timeStackView)
         scheduleContainerStackView.addArrangedSubview(infoClassesStackView)
-        scheduleContainerStackView.addArrangedSubview(chevronStackView)
         
         bulletStackView.addArrangedSubview(markView)
         
@@ -99,18 +99,18 @@ final class ScheduleTableViewCell: UITableViewCell {
         
         infoClassesStackView.addArrangedSubview(nameLabel)
         infoClassesStackView.addArrangedSubview(typeLabel)
+        infoClassesStackView.addArrangedSubview(dayLabel)
         infoClassesStackView.addArrangedSubview(teacherLabel)
-        infoClassesStackView.addArrangedSubview(roomLabel)
         
-        chevronStackView.addArrangedSubview(chevronButton)
+  
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
             scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-            scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
+            scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
         ])
         
         NSLayoutConstraint.activate([
@@ -118,20 +118,16 @@ final class ScheduleTableViewCell: UITableViewCell {
             markView.topAnchor.constraint(equalTo: bulletStackView.topAnchor, constant: 15),
         ])
 
-        
-        NSLayoutConstraint.activate([
-            chevronButton.topAnchor.constraint(equalTo: chevronStackView.topAnchor, constant: 35)
-        ])
     }
     
     //MARK: - Public
-    func update(_ schedule: Schedule) {
-        timeLabel.text = schedule.time
-        nameLabel.text = schedule.name
-        typeLabel.text = schedule.type
-        teacherLabel.text = schedule.teacher
-        roomLabel.text = schedule.room
-        markView.backgroundColor = UIColor(named: schedule.mark)
+    func update(_ schedule: DailyClasses) {
+        timeLabel.text = schedule.lesson.time
+        nameLabel.text = schedule.lesson.name
+        typeLabel.text = schedule.lesson.type
+        dayLabel.text = schedule.day
+        teacherLabel.text = schedule.lesson.teacher
+        markView.backgroundColor = UIColor(named: schedule.lesson.mark)
     }
-    
 }
+

@@ -51,12 +51,12 @@ class ScheduleScreenVC: UIViewController {
         
         // Navigation
         scheduleTableView.onClassesCellSelected = { classes in
-            self.showDetailClasses(classes)
+            self.showDetailClasses(classes, self.calendarState)
         }
     }
     
-    func showDetailClasses(_ lesson: Schedule) {
-        let controller = DetailScreenVC()
+    func showDetailClasses(_ classes: Schedule, _ date: DayViewState) {
+        let controller = DetailScreenVC(classes: classes, selectedDay: date)
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -112,6 +112,8 @@ extension ScheduleScreenVC: DayViewStateUpdating {
         print("$0: \(newDate)")
         let calendar = Calendar.autoupdatingCurrent
         let dayOfWeek = calendar.component(.weekday, from: newDate)
+        
         viewSignal.send(.reload(dayOfWeek))
+        
     }
 }

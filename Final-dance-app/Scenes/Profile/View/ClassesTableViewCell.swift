@@ -1,14 +1,16 @@
 import UIKit
 
-final class ScheduleTableViewCell: UITableViewCell {
+final class ClassesTableViewCell: UITableViewCell {
     
-    static let reuseId = "ScheduleTableViewCell"
+    static let reuseId = "ClassesTableViewCell"
     
     private var scheduleContainerStackView: UIStackView = {
         var stackView = UIStackView()
+        stackView.backgroundColor = .white
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillProportionally
+        stackView.layer.cornerRadius = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -60,18 +62,21 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     private var nameLabel = Label(style: .title, text: "Girly choreo (beginner)")
     private var typeLabel = Label(style: .descriptionSmall, text: "Group lesson")
+    private var dayLabel = Label(style: .description, text: "default day")
     private var teacherLabel = Label(style: .descriptionSmall, text: "Veronica")
-    private var roomLabel = Label(style: .descriptionSmall, text: "White")
     
-    private var chevronStackView: UIStackView = {
+    private var deleteStackView: UIStackView = {
         var stackView = UIStackView()
+//        stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        stackView.alignment = .center
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.directionalLayoutMargins.trailing = 10
         stackView.widthAnchor.constraint(equalToConstant: Screen.width * 0.1).isActive = true
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private var chevronButton = Button(style: .chevron, text: "chevron.right")
+     var deleteView = DeleteView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -85,12 +90,16 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
+        contentView.backgroundColor = Colors().background
         contentView.addSubview(scheduleContainerStackView)
+        
+        deleteView.translatesAutoresizingMaskIntoConstraints = false
+        
         
         scheduleContainerStackView.addArrangedSubview(bulletStackView)
         scheduleContainerStackView.addArrangedSubview(timeStackView)
         scheduleContainerStackView.addArrangedSubview(infoClassesStackView)
-        scheduleContainerStackView.addArrangedSubview(chevronStackView)
+        scheduleContainerStackView.addArrangedSubview(deleteStackView)
         
         bulletStackView.addArrangedSubview(markView)
         
@@ -99,39 +108,38 @@ final class ScheduleTableViewCell: UITableViewCell {
         
         infoClassesStackView.addArrangedSubview(nameLabel)
         infoClassesStackView.addArrangedSubview(typeLabel)
+        infoClassesStackView.addArrangedSubview(dayLabel)
         infoClassesStackView.addArrangedSubview(teacherLabel)
-        infoClassesStackView.addArrangedSubview(roomLabel)
         
-        chevronStackView.addArrangedSubview(chevronButton)
+        deleteStackView.addArrangedSubview(deleteView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-            scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
+            scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
         
         NSLayoutConstraint.activate([
             markView.leadingAnchor.constraint(equalTo: bulletStackView.leadingAnchor, constant: 10),
             markView.topAnchor.constraint(equalTo: bulletStackView.topAnchor, constant: 15),
         ])
-
         
         NSLayoutConstraint.activate([
-            chevronButton.topAnchor.constraint(equalTo: chevronStackView.topAnchor, constant: 35)
+            deleteStackView.centerYAnchor.constraint(equalTo: infoClassesStackView.centerYAnchor)
         ])
+
     }
     
     //MARK: - Public
-    func update(_ schedule: Schedule) {
-        timeLabel.text = schedule.time
-        nameLabel.text = schedule.name
-        typeLabel.text = schedule.type
-        teacherLabel.text = schedule.teacher
-        roomLabel.text = schedule.room
-        markView.backgroundColor = UIColor(named: schedule.mark)
+    func update(_ schedule: DailyClasses) {
+        timeLabel.text = schedule.lesson.time
+        nameLabel.text = schedule.lesson.name
+        typeLabel.text = schedule.lesson.type
+        dayLabel.text = schedule.day
+        teacherLabel.text = schedule.lesson.teacher
+        markView.backgroundColor = UIColor(named: schedule.lesson.mark)
     }
-    
 }
