@@ -67,7 +67,6 @@ final class ClassesTableViewCell: UITableViewCell {
     
     private var deleteStackView: UIStackView = {
         var stackView = UIStackView()
-//        stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         stackView.alignment = .center
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.directionalLayoutMargins.trailing = 10
