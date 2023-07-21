@@ -2,8 +2,10 @@ import UIKit
 
 class MainTabVC: UITabBarController {
     
-    private var mainVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: MainScreenVC())
+    var di = Di()
+    
+    lazy private var mainVC: UINavigationController = {
+        let controller = UINavigationController(rootViewController: MainScreenVC(provider: di.mainProvider))
         
         let image = UIImage(systemName: "house.fill")
         let selectedImage = UIImage(systemName: "house.fill")

@@ -1,16 +1,23 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
 
-
+    var di = Di()
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let window = UIWindow.init(windowScene: windowScene)
-        window.rootViewController = MainTabVC()
-        window.makeKeyAndVisible()
-        self.window = window
+        
+//        let window = UIWindow.init(windowScene: windowScene)
+//
+//        self.window = window
+        
+        self.window = di.makeWindowWithController(scene: windowScene)
+        window?.makeKeyAndVisible()
+//        window.rootViewController = MainTabVC()
+//        window.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -36,3 +43,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension UIViewController {
+    var sceneDelegate: SceneDelegate? {
+        for scene in UIApplication.shared.connectedScenes {
+            var delegate = scene.delegate as! SceneDelegate
+            return delegate
+        }
+        return nil
+    }
+}

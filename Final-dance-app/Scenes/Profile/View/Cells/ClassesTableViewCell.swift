@@ -1,6 +1,6 @@
 import UIKit
 
-final class ClassesCollectionViewCell: UICollectionViewCell {
+final class ClassesTableViewCell: UITableViewCell {
     
     static let reuseId = "ClassesTableViewCell"
     
@@ -10,14 +10,7 @@ final class ClassesCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillProportionally
-        stackView.layer.cornerRadius = 20
-        
-        stackView.layer.shadowOffset = CGSize(width: 0, height: 5.0)
-        stackView.layer.shadowOpacity = 0.2
-        stackView.layer.shadowColor = UIColor.gray.cgColor
-        stackView.layer.shadowRadius = 11.0
-        stackView.layer.masksToBounds = false
-        
+        stackView.layer.cornerRadius = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -72,8 +65,20 @@ final class ClassesCollectionViewCell: UICollectionViewCell {
     private var dayLabel = Label(style: .description, text: "default day")
     private var teacherLabel = Label(style: .descriptionSmall, text: "Veronica")
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var deleteStackView: UIStackView = {
+        var stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins.trailing = 10
+        stackView.widthAnchor.constraint(equalToConstant: Screen.width * 0.1).isActive = true
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    var deleteView = DeleteView()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupViews()
         setupConstraints()
@@ -83,7 +88,7 @@ final class ClassesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//MARK: - Public
+    //MARK: - Public
     func update(_ schedule: DailyClasses) {
         timeLabel.text = schedule.lesson.time
         nameLabel.text = schedule.lesson.name
@@ -94,15 +99,19 @@ final class ClassesCollectionViewCell: UICollectionViewCell {
     }
 }
 
-//MARK: - Layout configuration
-extension ClassesCollectionViewCell {
+extension ClassesTableViewCell {
     
-    private func setupViews() {
+    func setupViews() {
+        contentView.backgroundColor = Colors().background
         contentView.addSubview(scheduleContainerStackView)
+        
+        deleteView.translatesAutoresizingMaskIntoConstraints = false
+        
         
         scheduleContainerStackView.addArrangedSubview(bulletStackView)
         scheduleContainerStackView.addArrangedSubview(timeStackView)
         scheduleContainerStackView.addArrangedSubview(infoClassesStackView)
+        scheduleContainerStackView.addArrangedSubview(deleteStackView)
         
         bulletStackView.addArrangedSubview(markView)
         
@@ -113,20 +122,26 @@ extension ClassesCollectionViewCell {
         infoClassesStackView.addArrangedSubview(typeLabel)
         infoClassesStackView.addArrangedSubview(dayLabel)
         infoClassesStackView.addArrangedSubview(teacherLabel)
+        
+        deleteStackView.addArrangedSubview(deleteView)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
-            scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            scheduleContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             scheduleContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             scheduleContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
+            scheduleContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
         
         NSLayoutConstraint.activate([
             markView.leadingAnchor.constraint(equalTo: bulletStackView.leadingAnchor, constant: 10),
-            markView.topAnchor.constraint(equalTo: bulletStackView.topAnchor, constant: 15)
+            markView.topAnchor.constraint(equalTo: bulletStackView.topAnchor, constant: 15),
         ])
+        
+        NSLayoutConstraint.activate([
+            deleteStackView.centerYAnchor.constraint(equalTo: infoClassesStackView.centerYAnchor)
+        ])
+        
     }
 }
-

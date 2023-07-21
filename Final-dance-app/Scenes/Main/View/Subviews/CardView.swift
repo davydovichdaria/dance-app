@@ -2,7 +2,7 @@ import UIKit
 
 class CardView: UIView {
     
-     var cardImageView: UIImageView = {
+    var cardImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "Card")
         imageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.5).isActive = true
@@ -14,7 +14,7 @@ class CardView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     private var profileImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "Default profile")
@@ -27,7 +27,6 @@ class CardView: UIView {
         return imageView
     }()
     
-    #warning("сделать экран регистрации и там принять данные")
     private var personNameLabel: UILabel = {
         var label = UILabel()
         label.text = "Name Surname"
@@ -60,6 +59,7 @@ class CardView: UIView {
     }
 }
 
+//MARK: -Layout configuration
 extension CardView {
     
     private func setupViews() {
@@ -76,12 +76,12 @@ extension CardView {
             cardImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
             cardImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
-
+        
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: cardImageView.topAnchor, constant: 15),
-            profileImageView.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 15),
+            profileImageView.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 15)
         ])
-
+        
         NSLayoutConstraint.activate([
             personNameLabel.topAnchor.constraint(equalTo: cardImageView.topAnchor, constant: 15),
             personNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10)
