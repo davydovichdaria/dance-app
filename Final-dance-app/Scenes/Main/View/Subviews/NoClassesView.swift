@@ -2,9 +2,10 @@ import UIKit
 
 final class NoClassesView: UIView {
     
-    var onScheduleButtonAction: (()->())? //объявили
+    var onScheduleButtonAction: (()->())?
     
     private let classesContainerStackView = ContainerVerticalStackView()
+    
     private let noClassesTitileLabel = Label(style: .title, text: "There are no classes")
     
     private let noClassesDescriptionLabel = Label(style: .description, text: "You are not signed up for training")
@@ -27,11 +28,13 @@ final class NoClassesView: UIView {
     }
     
     @objc func scheduleButtonTapped() {
-        onScheduleButtonAction?() //приняли
+        onScheduleButtonAction?()
     }
 }
 
+//MARK: -Layout configuration
 extension NoClassesView {
+    
     private func setupViews() {
         self.addSubview(classesContainerStackView)
         

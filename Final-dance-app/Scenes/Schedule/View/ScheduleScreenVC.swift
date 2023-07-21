@@ -3,12 +3,46 @@ import CalendarKit
 import Combine
 
 class ScheduleScreenVC: UIViewController {
-
-    // MARK: - MVVM
     
-    private var viewModel = ScheduleViewModel()
-    private var viewSignal = PassthroughSubject<ScheduleViewModel.ViewSignal, Never>()
-    private var subscription = Set<AnyCancellable>()
+    private var scheduleAPI = ScheduleAPIImpl.init()
+    
+    var todayDayIndex: Int!
+    
+    
+    
+    func returnWeekDay() -> Int {
+        let calendar = Calendar.autoupdatingCurrent
+        let dateNow = Date()
+        let dayOfWeek = calendar.component(.weekday, from: dateNow)
+        return dayOfWeek
+    }
+    func fetchDailySchedule(day: Int) {
+        let weekDay = Days.init(rawValue: day)
+        
+        switch weekDay  {
+        case .sunday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSunday)
+        case .monday: fetchDaySchedule(endpoint: ScheduleEndpoint.getMonday)
+        case .tuesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getTuesday)
+        case .wednesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getWednesday)
+        case .thursday: fetchDaySchedule(endpoint: ScheduleEndpoint.getThursday)
+        case .friday: fetchDaySchedule(endpoint: ScheduleEndpoint.getFriday)
+        case .saturday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSaturday)
+        default: print("No data")
+        }
+    }
+    
+    func fetchDaySchedule(endpoint: Endpoint) {
+        Task {
+            do {
+                let scheduleResponse = try await scheduleAPI.fetchSchedule(endpoint: endpoint)
+                let schedule = scheduleResponse.schedule
+                scheduleTableView.update(schedule)
+                scheduleTableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }
+    }
     
     private lazy var calendarState: DayViewState = {
         let state = DayViewState(date: Date(), calendar: Calendar.autoupdatingCurrent)
@@ -46,8 +80,10 @@ class ScheduleScreenVC: UIViewController {
         setupViews()
         setupConstraints()
         
-        bind()
-        viewSignal.send(.initialLoading)
+        todayDayIndex = returnWeekDay()
+        fetchDailySchedule(day: todayDayIndex)
+        
+        
         
         // Navigation
         scheduleTableView.onClassesCellSelected = { classes in
@@ -59,49 +95,34 @@ class ScheduleScreenVC: UIViewController {
         let controller = DetailScreenVC(classes: classes, selectedDay: date)
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-//MARK: - Public
-    
-    public func bind() {
-        let output = viewModel.bind(signal: viewSignal.eraseToAnyPublisher())
-        
-        output.schedule
-            .receive(on: RunLoop.main)
-            .sink { schedule in
-                self.scheduleTableView.update(schedule)
-                self.scheduleTableView.reloadData()
-            }
-            .store(in: &subscription)
-    }
 }
-
-//MARK: - Layout configuration
-
-extension ScheduleScreenVC {
+    //MARK: - Layout configuration
     
-    private func setupViews() {
-        view.backgroundColor = .white
-        view.addSubview(calendarView)
-        view.addSubview(scheduleTableView)
-    }
-    
-    private func setupConstraints() {
+    extension ScheduleScreenVC {
         
-        NSLayoutConstraint.activate([
-            calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            calendarView.heightAnchor.constraint(equalToConstant: 90)
-        ])
+        private func setupViews() {
+            view.backgroundColor = .white
+            view.addSubview(calendarView)
+            view.addSubview(scheduleTableView)
+        }
         
-        NSLayoutConstraint.activate([
-            scheduleTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 10),
-            scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            scheduleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-        ])
+        private func setupConstraints() {
+            
+            NSLayoutConstraint.activate([
+                calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                calendarView.heightAnchor.constraint(equalToConstant: 90)
+            ])
+            
+            NSLayoutConstraint.activate([
+                scheduleTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 10),
+                scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+                scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+                scheduleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            ])
+        }
     }
-}
 
 
 //MARK: - DayViewStateUpdating
@@ -113,7 +134,7 @@ extension ScheduleScreenVC: DayViewStateUpdating {
         let calendar = Calendar.autoupdatingCurrent
         let dayOfWeek = calendar.component(.weekday, from: newDate)
         
-        viewSignal.send(.reload(dayOfWeek))
+        fetchDailySchedule(day: dayOfWeek)
         
     }
 }

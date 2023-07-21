@@ -3,19 +3,22 @@ import UIKit
 final class InfoView: UIView {
     
     private var infoImage: String
+    
     private var infoLabel: String
+    
     private var infoDescription: String
+    
     private var color: String
     
     private var aboutStudioContainer = InfoContainerStackView()
     
-   private lazy var aboutStudioImageView: UIImageView = {
+    private lazy var aboutStudioImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(systemName: infoImage)
         imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         imageView.contentMode = .scaleAspectFill
-       imageView.tintColor = UIColor(named: color)
+        imageView.tintColor = UIColor(named: color)
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +35,9 @@ final class InfoView: UIView {
     }()
     
     private lazy var aboutStudioLabel = Label(style: .title, text: infoLabel)
+    
     private lazy var aboutStudioDespriptionLabel = Label(style: .descriptionSmall, text: infoDescription)
+    
     var aboutButton = Button(style: .chevron, text: "chevron.right")
     
     init(image: String, color: String, label: String, description: String) {
@@ -51,7 +56,9 @@ final class InfoView: UIView {
     }
 }
 
+//MARK: -Layout configuration
 extension InfoView {
+    
     private func setupViews() {
         self.addSubview(aboutStudioContainer)
         self.addSubview(aboutButton)
@@ -68,12 +75,12 @@ extension InfoView {
             aboutStudioContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             aboutStudioContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             aboutStudioContainer.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
-            aboutStudioContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            aboutStudioContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         ])
         
         NSLayoutConstraint.activate([
             aboutButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            aboutButton.trailingAnchor.constraint(equalTo: aboutStudioContainer.trailingAnchor, constant: -10),
+            aboutButton.trailingAnchor.constraint(equalTo: aboutStudioContainer.trailingAnchor, constant: -10)
         ])
     }
 }
