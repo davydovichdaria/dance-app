@@ -18,11 +18,15 @@ class ContactsTableViewCell: UITableViewCell {
     }()
     
     let contactsLabel = Label(style: .typesOfClasses, text: "Sign up for a workout")
+    
     let phoneTitleLabel = Label(style: .title, text: "Phone number:")
+    
     var phoneNumberLabel = Label(style: .trainerName, text: "+375 (33) 537-76-45")
+    
     let scheduleTitleLabel = Label(style: .title, text: "In our mobile app:")
+    
     let goToScheduleButton: UIButton = {
-    let button = Button(style: .purpleBackgroundButton, text: "Go to schedule")
+        let button = Button(style: .purpleBackgroundButton, text: "Go to schedule")
         button.addTarget(self, action: #selector(didScheduleButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -41,7 +45,10 @@ class ContactsTableViewCell: UITableViewCell {
     @objc func didScheduleButtonTapped() {
         onScheduleButtonTapped?()
     }
-    
+}
+
+//MARK: - Layout configuration
+extension ContactsTableViewCell {
     func setupViews() {
         contentView.addSubview(containerStackView)
         contentView.backgroundColor = Colors().background
@@ -71,6 +78,6 @@ class ContactsTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             scheduleTitleLabel.topAnchor.constraint(equalTo: phoneNumberLabel.bottomAnchor, constant: 20),
         ])
-
+        
     }
 }

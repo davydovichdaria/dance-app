@@ -1,8 +1,7 @@
 import UIKit
 
-class TrainersTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class TrainersTableViewCell: UITableViewCell {
 
-    
     static let reuseID = "TrainersTableViewCell"
     
     var trainers: [Trainer] = []
@@ -49,12 +48,34 @@ class TrainersTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColl
         fatalError("init(coder:) has not been implemented")
     }
     
+//MARK: - Public
     func update(_ trainers: [Trainer]) {
         self.trainers = trainers
     }
+}
+
+//MARK: - Collection View Data Source
+extension TrainersTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(trainers.count)
+        return trainers.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrainersCollectionViewCell.reuseId, for: indexPath) as! TrainersCollectionViewCell
+        let trainer = trainers[indexPath.row]
+        cell.update(trainer)
+        return cell
+    }
+}
+
+//MARK: - Layout configuration
+extension TrainersTableViewCell {
     
     func setupViews() {
         contentView.addSubview(containerView)
+        
         containerView.addSubview(titleLabel)
         containerView.addSubview(trainersCollectionView)
     }
@@ -78,17 +99,5 @@ class TrainersTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColl
             trainersCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             trainersCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
         ])
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(trainers.count)
-        return trainers.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrainersCollectionViewCell.reuseId, for: indexPath) as! TrainersCollectionViewCell
-        let trainer = trainers[indexPath.row]
-        cell.update(trainer)
-        return cell
     }
 }

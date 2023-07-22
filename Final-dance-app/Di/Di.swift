@@ -8,16 +8,6 @@ class ScheduleApiClientImpl: ScheduleApiClient {
     
 }
 
-protocol TrainersApiClient {
-    
-}
-
-class TrainersApiClientImpl: TrainersApiClient {
-    
-}
-
-
-
 protocol ScreenFactory {
     
     var di: Di! { get set }
@@ -25,8 +15,11 @@ protocol ScreenFactory {
     func makeMainTabVC() -> MainTabVC
     
     func makeMainScreen() -> MainScreenVC
-    func makeScheduleScreen() -> ScheduleScreenVC
+    
     func makeTrainerScreen() -> TrainersScreenVC
+    
+    func makeScheduleScreen() -> ScheduleScreenVC
+
     func makeAboutScreen() -> AboutScreenVC
 }
 
@@ -42,12 +35,12 @@ class ScreenFactoryImpl: ScreenFactory {
         return MainScreenVC.init(provider: di.mainProvider)
     }
     
-    func makeScheduleScreen() -> ScheduleScreenVC {
-        return ScheduleScreenVC.init()
+    func makeTrainerScreen() -> TrainersScreenVC {
+        return TrainersScreenVC.init(trainersAPI: di.trainersApiClient)
     }
     
-    func makeTrainerScreen() -> TrainersScreenVC {
-        return TrainersScreenVC.init()
+    func makeScheduleScreen() -> ScheduleScreenVC {
+        return ScheduleScreenVC.init()
     }
     
     func makeAboutScreen() -> AboutScreenVC {

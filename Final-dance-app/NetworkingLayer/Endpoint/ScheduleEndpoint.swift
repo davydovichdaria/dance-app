@@ -61,8 +61,4 @@ extension ScheduleEndpoint: Endpoint {
         default: return nil
         }
     }
-    
-
-    
-    
 }
