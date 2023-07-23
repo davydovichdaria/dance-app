@@ -1,23 +1,24 @@
 import UIKit
 
 class TrainersCollectionViewCell: UICollectionViewCell {
+    
     static let reuseId = "TrainersCollectionViewCell"
     
-   private var containerView: UIStackView = {
-    var view = UIStackView()
-       view.axis = .vertical
-       view.alignment = .center
-       view.distribution = .equalCentering
-       view.heightAnchor.constraint(equalToConstant: Screen.width * 0.35).isActive = true
-       view.isLayoutMarginsRelativeArrangement = true
-       view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 10)
-       view.translatesAutoresizingMaskIntoConstraints = false
-       
-       view.backgroundColor = .white.withAlphaComponent(0.95)
-       
-       view.layer.cornerRadius = 15
-       view.layer.borderWidth = 1
-       view.layer.borderColor = CGColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
+    private var containerView: UIStackView = {
+        var view = UIStackView()
+        view.axis = .vertical
+        view.alignment = .center
+        view.distribution = .equalCentering
+        view.heightAnchor.constraint(equalToConstant: Screen.width * 0.35).isActive = true
+        view.isLayoutMarginsRelativeArrangement = true
+        view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 10)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.backgroundColor = .white.withAlphaComponent(0.95)
+        
+        view.layer.cornerRadius = 15
+        view.layer.borderWidth = 1
+        view.layer.borderColor = CGColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
         return view
     }()
     
@@ -29,12 +30,12 @@ class TrainersCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = Screen.width * 0.17
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-
         
         return imageView
     }()
     
     var nameLabel = Label(style: .trainerName, text: "Veronica")
+    
     var typeOfClassesLabel = Label(style: .descriptionSmall, text: "Girly Choreo")
     
     override init(frame: CGRect) {
@@ -56,11 +57,16 @@ class TrainersCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+//MARK: - Public
     func update(_ trainers: Trainer) {
         trainerImageView.image = UIImage(named: trainers.name)
         nameLabel.text = trainers.name
         typeOfClassesLabel.text = trainers.typeOfClass
     }
+}
+
+//MARK: - Layout configuration
+extension TrainersCollectionViewCell {
     
     func setupViews() {
         contentView.addSubview(containerView)
@@ -82,13 +88,11 @@ class TrainersCollectionViewCell: UICollectionViewCell {
             trainerImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 35),
             
         ])
-
         
         NSLayoutConstraint.activate([
             typeOfClassesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             typeOfClassesLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -30),
             
         ])
-        
     }
 }

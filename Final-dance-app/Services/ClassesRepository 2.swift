@@ -13,6 +13,8 @@ final class ClassesRepositoryImpl: ClassesRepository {
     
     //MARK: - Public
     func save(_ classes: [DailyClasses]) {
+        //Array<Schedule> -> Data
+        //массив кладем в бинарник и кодируем, бинарник кладем в UserDefaults
         
         do {
             let data = try encoder.encode(classes)
@@ -23,6 +25,8 @@ final class ClassesRepositoryImpl: ClassesRepository {
     }
     
     func retrive() -> [DailyClasses] {
+        //Data -> Array<Product>
+        //вытаскиваем из UserDefaults бинарник
         guard let data = UserDefaults.standard.data(forKey: key) else { return [] }
         do {
             let classes = try decoder.decode(Array<DailyClasses>.self, from: data)

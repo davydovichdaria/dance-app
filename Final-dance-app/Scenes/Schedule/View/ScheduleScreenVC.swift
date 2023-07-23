@@ -1,14 +1,11 @@
 import UIKit
 import CalendarKit
-import Combine
 
 class ScheduleScreenVC: UIViewController {
     
-    private var scheduleAPI = ScheduleAPIImpl.init()
+    var scheduleAPI = ScheduleAPIImpl.init()
     
     var todayDayIndex: Int!
-    
-    
     
     func returnWeekDay() -> Int {
         let calendar = Calendar.autoupdatingCurrent
@@ -16,6 +13,7 @@ class ScheduleScreenVC: UIViewController {
         let dayOfWeek = calendar.component(.weekday, from: dateNow)
         return dayOfWeek
     }
+    
     func fetchDailySchedule(day: Int) {
         let weekDay = Days.init(rawValue: day)
         
@@ -32,14 +30,14 @@ class ScheduleScreenVC: UIViewController {
     }
     
     func fetchDaySchedule(endpoint: Endpoint) {
-        Task {
-            do {
-                let scheduleResponse = try await scheduleAPI.fetchSchedule(endpoint: endpoint)
-                let schedule = scheduleResponse.schedule
-                scheduleTableView.update(schedule)
-                scheduleTableView.reloadData()
-            } catch {
-                print(error)
+        
+        scheduleAPI.fetchSchedule(endpoint: endpoint) { result in
+            switch result {
+            case .success(let schedule):
+                self.scheduleTableView.update(schedule)
+                self.scheduleTableView.reloadData()
+            case .failure(_):
+                print("Some error")
             }
         }
     }
@@ -79,11 +77,9 @@ class ScheduleScreenVC: UIViewController {
         
         setupViews()
         setupConstraints()
-        
+
         todayDayIndex = returnWeekDay()
         fetchDailySchedule(day: todayDayIndex)
-        
-        
         
         // Navigation
         scheduleTableView.onClassesCellSelected = { classes in
@@ -96,33 +92,33 @@ class ScheduleScreenVC: UIViewController {
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
-    //MARK: - Layout configuration
+//MARK: - Layout configuration
+
+extension ScheduleScreenVC {
     
-    extension ScheduleScreenVC {
-        
-        private func setupViews() {
-            view.backgroundColor = .white
-            view.addSubview(calendarView)
-            view.addSubview(scheduleTableView)
-        }
-        
-        private func setupConstraints() {
-            
-            NSLayoutConstraint.activate([
-                calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                calendarView.heightAnchor.constraint(equalToConstant: 90)
-            ])
-            
-            NSLayoutConstraint.activate([
-                scheduleTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 10),
-                scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-                scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-                scheduleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-            ])
-        }
+    private func setupViews() {
+        view.backgroundColor = .white
+        view.addSubview(calendarView)
+        view.addSubview(scheduleTableView)
     }
+    
+    private func setupConstraints() {
+        
+        NSLayoutConstraint.activate([
+            calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            calendarView.heightAnchor.constraint(equalToConstant: 90)
+        ])
+        
+        NSLayoutConstraint.activate([
+            scheduleTableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 10),
+            scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            scheduleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        ])
+    }
+}
 
 
 //MARK: - DayViewStateUpdating
@@ -134,7 +130,6 @@ extension ScheduleScreenVC: DayViewStateUpdating {
         let calendar = Calendar.autoupdatingCurrent
         let dayOfWeek = calendar.component(.weekday, from: newDate)
         
-        fetchDailySchedule(day: dayOfWeek)
-        
+                fetchDailySchedule(day: dayOfWeek)
     }
 }

@@ -1,113 +1,48 @@
 import UIKit
-import Combine
-
-enum Section: Int, CaseIterable {
-    case trainers
-    case contacts
-}
 
 class TrainersScreenVC: UIViewController {
     
-    //MARK: - MVVM
+    private var trainersAPI: TrainersApiClient
     
-    private var viewModel = TrainersViewModel.init()
-    private var viewSignal = PassthroughSubject<TrainersViewModel.ViewSignal, Never>()
-    private var subscribtion = Set<AnyCancellable>()
+    var trainersView: TrainersScreenView {
+        return self.view as! TrainersScreenView
+    }
     
-    var trainers: [Trainer] = []
-    var onScheduleButtonTapped: (()->())?
-
-    lazy var trainersTableView: UITableView = {
-        var tableView = UITableView()
+    init(trainersAPI: TrainersApiClient) {
+        self.trainersAPI = trainersAPI
         
-        tableView.backgroundColor = Colors().background
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        tableView.register(TrainersTableViewCell.self, forCellReuseIdentifier: TrainersTableViewCell.reuseID)
-        tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: ContactsTableViewCell.reuseID)
-        tableView.separatorStyle = .none
-        tableView.allowsSelection = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return tableView
-    }()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        self.view = TrainersScreenView.init(frame: Screen.bounds)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Trainers"
         
-        setupViews()
-        setupConstraints()
+        fetchTrainers(endpoint: TrainersEndpoint.getTrainers)
         
-        bind()
-        viewSignal.send(.initialLoading)
-        
-        self.onScheduleButtonTapped = {
+        trainersView.onScheduleButtonTapped = {
             self.tabBarController?.selectedIndex = 1
         }
     }
     
-    public func bind() {
-        let output = viewModel.bind(signal: viewSignal.eraseToAnyPublisher())
+    func fetchTrainers(endpoint: Endpoint) {
         
-        output.trainers
-            .receive(on: RunLoop.main)
-            .sink { trainers in
-                self.trainers = trainers
-                self.trainersTableView.reloadData()
+        trainersAPI.fetchSchedule(endpoint: endpoint) { result in
+            switch result {
+            case .success(let trainers):
+                self.trainersView.trainers = trainers
+                self.trainersView.trainersTableView.reloadData()
+            case .failure(_):
+                print("Error")
             }
-            .store(in: &subscribtion)
-    }
-}
-
-//MARK: - Layout configuration
-extension TrainersScreenVC {
-    
-    func setupViews() {
-        view.backgroundColor = .white
-        title = "Trainers"
-        view.addSubview(trainersTableView)
-    }
-    
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            trainersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            trainersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            trainersTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            trainersTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0)
-        ])
-    }
-}
-
-//MARK: - Table View
-extension TrainersScreenVC: UITableViewDataSource, UITableViewDelegate {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = Section.init(rawValue: indexPath.section)
-        
-        switch section {
-        case .trainers:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TrainersTableViewCell.reuseID, for: indexPath) as! TrainersTableViewCell
-            print(trainers.count)
-            cell.update(trainers)
-            cell.trainersCollectionView.reloadData()
-            return cell
-        case .contacts:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ContactsTableViewCell.reuseID, for: indexPath) as! ContactsTableViewCell
-            cell.onScheduleButtonTapped = {
-                self.onScheduleButtonTapped?()
-            }
-            return cell
-        default: return UITableViewCell()
         }
     }
 }

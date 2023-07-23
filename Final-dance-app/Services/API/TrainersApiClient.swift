@@ -1,12 +1,12 @@
 import UIKit
 
-protocol ScheduleAPI {
-    func fetchSchedule(endpoint: Endpoint, completion: @escaping((Result<[Schedule], Error>)->()))
+protocol TrainersApiClient {
+    func fetchSchedule(endpoint: Endpoint, completion: @escaping((Result<[Trainer], Error>)->()))
 }
 
-class ScheduleAPIImpl: ScheduleAPI {
+class TrainersApiClientImpl: TrainersApiClient {
     
-    func fetchSchedule(endpoint: Endpoint, completion: @escaping ((Result<[Schedule], Error>) -> ())) {
+    func fetchSchedule(endpoint: Endpoint, completion: @escaping ((Result<[Trainer], Error>) -> ())) {
         
         let session = URLSession.init(configuration: .default)
         
@@ -49,15 +49,14 @@ class ScheduleAPIImpl: ScheduleAPI {
             let decoder = JSONDecoder()
             
             do {
-                let scheduleResponse = try decoder.decode(ScheduleResponse.self, from: data)
-                let schedule = scheduleResponse.schedule
+                let trainersResponse = try decoder.decode(TrainersResponse.self, from: data)
+                let trainers = trainersResponse.trainers
                 DispatchQueue.main.async {
-                    completion(.success(schedule))
+                    completion(.success(trainers))
                 }
             } catch {
                 print(NetworkError.decode)
             }
-            
         }.resume()
     }
 }

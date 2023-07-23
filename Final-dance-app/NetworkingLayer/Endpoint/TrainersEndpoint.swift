@@ -1,10 +1,3 @@
-//
-//  TrainersEndpoint.swift
-//  Final-dance-app
-//
-//  Created by Daria Davydovich on 7/5/23.
-//
-
 import Foundation
 
 enum TrainersEndpoint {
@@ -19,6 +12,7 @@ extension TrainersEndpoint: Endpoint {
             return .get
         }
     }
+    
     var path: String {
         switch self {
         case .getTrainers:
