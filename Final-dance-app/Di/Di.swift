@@ -1,13 +1,5 @@
 import UIKit
 
-protocol ScheduleApiClient {
-    
-}
-
-class ScheduleApiClientImpl: ScheduleApiClient {
-    
-}
-
 protocol ScreenFactory {
     
     var di: Di! { get set }
@@ -37,7 +29,7 @@ class ScreenFactoryImpl: ScreenFactory {
     }
     
     func makeScheduleScreen() -> ScheduleScreenVC {
-        return ScheduleScreenVC.init()
+        return ScheduleScreenVC.init(scheduleProvider: di.scheduleProvider)
     }
     
     func makeAboutScreen() -> AboutScreenVC {
@@ -59,12 +51,15 @@ class Di {
     
     let classesRepository: ClassesRepository
     
+    let dayService: DayService
+    
     var screenFactory: ScreenFactory
     
     init() {
         scheduleApiClient = ScheduleApiClientImpl()
         trainersApiClient = TrainersApiClientImpl()
         classesRepository = ClassesRepositoryImpl()
+        dayService = DayServiceImpl()
         screenFactory = ScreenFactoryImpl()
         
         screenFactory.di = self
@@ -73,6 +68,25 @@ class Di {
     //упаковали провайдер
     var mainProvider: MainProviderImpl {
         return MainProviderImpl.init(repository: classesRepository)
+    }
+    
+    var scheduleProvider: ScheduleProviderImpl {
+        return ScheduleProviderImpl(dayService: dayService, scheduleApi: scheduleApiClient)
+    }
+}
+
+protocol ScheduleProvider {
+    var dayService: DayService { get set }
+    var scheduleApi: ScheduleApiClient { get set }
+}
+
+class ScheduleProviderImpl: ScheduleProvider {
+    var dayService: DayService
+    var scheduleApi: ScheduleApiClient
+    
+    init(dayService: DayService, scheduleApi: ScheduleApiClient) {
+        self.dayService = dayService
+        self.scheduleApi = scheduleApi
     }
 }
 

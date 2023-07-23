@@ -3,49 +3,21 @@ import CalendarKit
 
 class ScheduleScreenVC: UIViewController {
     
+    var scheduleProvider: ScheduleProvider
+    
     private var scheduleView: ScheduleScreenView {
         return self.view as! ScheduleScreenView
     }
     
-    var scheduleAPI = ScheduleAPIImpl.init()
-    
-    var todayDayIndex: Int!
-    
-    func returnWeekDay() -> Int {
-        let calendar = Calendar.autoupdatingCurrent
-        let dateNow = Date()
-        let dayOfWeek = calendar.component(.weekday, from: dateNow)
-        return dayOfWeek
+    init(scheduleProvider: ScheduleProvider) {
+        self.scheduleProvider = scheduleProvider
+        super.init(nibName: nil, bundle: nil)
     }
     
-    func fetchDailySchedule(day: Int) {
-        let weekDay = Days.init(rawValue: day)
-        
-        switch weekDay  {
-        case .sunday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSunday)
-        case .monday: fetchDaySchedule(endpoint: ScheduleEndpoint.getMonday)
-        case .tuesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getTuesday)
-        case .wednesday: fetchDaySchedule(endpoint: ScheduleEndpoint.getWednesday)
-        case .thursday: fetchDaySchedule(endpoint: ScheduleEndpoint.getThursday)
-        case .friday: fetchDaySchedule(endpoint: ScheduleEndpoint.getFriday)
-        case .saturday: fetchDaySchedule(endpoint: ScheduleEndpoint.getSaturday)
-        default: print("No data")
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func fetchDaySchedule(endpoint: Endpoint) {
-        
-        scheduleAPI.fetchSchedule(endpoint: endpoint) { result in
-            switch result {
-            case .success(let schedule):
-                self.scheduleView.scheduleTableView.update(schedule)
-                self.scheduleView.scheduleTableView.reloadData()
-            case .failure(_):
-                print("Some error")
-            }
-        }
-    }
-
     override func loadView() {
         self.view = ScheduleScreenView.init(frame: Screen.bounds)
     }
@@ -55,13 +27,26 @@ class ScheduleScreenVC: UIViewController {
         title = "Schedule"
 
         scheduleView.calendarState.subscribe(client: self)
-        
-        todayDayIndex = returnWeekDay()
-        fetchDailySchedule(day: todayDayIndex)
-        
+    
+        let endpoint = scheduleProvider.dayService.initialLoading()
+        fetchDaySchedule(endpoint: endpoint)
+
         // Navigation
         scheduleView.scheduleTableView.onClassesCellSelected = { classes in
             self.showDetailClasses(classes, self.scheduleView.calendarState)
+        }
+    }
+    
+    func fetchDaySchedule(endpoint: Endpoint) {
+        
+        scheduleProvider.scheduleApi.fetchSchedule(endpoint: endpoint) { result in
+            switch result {
+            case .success(let schedule):
+                self.scheduleView.scheduleTableView.update(schedule)
+                self.scheduleView.scheduleTableView.reloadData()
+            case .failure(_):
+                print("Some error")
+            }
         }
     }
     
@@ -71,9 +56,7 @@ class ScheduleScreenVC: UIViewController {
     }
 }
 
-
 //MARK: - DayViewStateUpdating
-
 extension ScheduleScreenVC: DayViewStateUpdating {
     
     func move(from oldDate: Date, to newDate: Date) {
@@ -81,6 +64,7 @@ extension ScheduleScreenVC: DayViewStateUpdating {
         let calendar = Calendar.autoupdatingCurrent
         let dayOfWeek = calendar.component(.weekday, from: newDate)
         
-        fetchDailySchedule(day: dayOfWeek)
+        let endpoint = scheduleProvider.dayService.fetchDailySchedule(day: dayOfWeek)
+        self.fetchDaySchedule(endpoint: endpoint)
     }
 }

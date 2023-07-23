@@ -8,7 +8,7 @@ class ProfileScreenVC: UIViewController {
     
     var classesArchiver = ClassesRepositoryImpl()
     
-   lazy var classes: [DailyClasses] = classesArchiver.retrive()
+    lazy var classes: [DailyClasses] = classesArchiver.retrive()
     
     override func loadView() {
         self.view = ProfileScreenView(frame: Screen.bounds)

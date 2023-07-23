@@ -1,10 +1,10 @@
 import UIKit
 
-protocol ScheduleAPI {
+protocol ScheduleApiClient {
     func fetchSchedule(endpoint: Endpoint, completion: @escaping((Result<[Schedule], Error>)->()))
 }
 
-class ScheduleAPIImpl: ScheduleAPI {
+class ScheduleApiClientImpl: ScheduleApiClient {
     
     func fetchSchedule(endpoint: Endpoint, completion: @escaping ((Result<[Schedule], Error>) -> ())) {
         
