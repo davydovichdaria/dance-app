@@ -1,12 +1,9 @@
 import UIKit
 import CalendarKit
 
-class DetailScreenVC: UIViewController {
+class DetailScreenView: UIView {
     
-    var currentClass: Schedule
-    var tappedDay: DayViewState
-    var classesArchiver = ClassesRepositoryImpl()
-    var profileVC = ProfileScreenVC()
+    var onSignUpButtonTapped: (()->())?
     
     lazy private var detailScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -33,8 +30,10 @@ class DetailScreenVC: UIViewController {
         return imageView
     }()
     
-   lazy private var infoClassesView = InfoClassesView.init()
+    lazy private var infoClassesView = InfoClassesView.init()
+    
     private var trainerDetailView = TrainerDetailView.init()
+    
     private var signUpView: UIView = {
         var view = UIView()
         view.backgroundColor = .white
@@ -56,83 +55,39 @@ class DetailScreenVC: UIViewController {
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
-
-    init(classes: Schedule, selectedDay: DayViewState) {
-        self.currentClass = classes
-        self.tappedDay = selectedDay
-        super.init(nibName: nil, bundle: nil)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        update()
-        
-        setupViews()
-        setupConstraints()
-        
-        
-    }
-    
     @objc func signUpButtonTapped() {
-        signUpToWorkout()
+        onSignUpButtonTapped?()
     }
     
-    func update() {
+//MARK: - Public
+    func update(currentClass: Schedule, day: DayViewState) {
 
-            infoClassesView.update(currentClass, day: self.tappedDay)
+            infoClassesView.update(currentClass, day: day)
             trainerDetailView.update(currentClass)
-            updateImageView(currentClass)
-        
-    }
-    
-    func signUpToWorkout() {
-        var futureClasses = classesArchiver.retrive() //Получили массив из хранилища
-        
-        let selectedLesson = DailyClasses(lesson: currentClass, day: fetchSelectedDay())
-        
-        let isRepeatedClasses = futureClasses.contains { $0.day == selectedLesson.day && $0.lesson.time == selectedLesson.lesson.time}
-        
-        defer {
-            classesArchiver.save(futureClasses)
-            profileVC.classesTableView.reloadData()
-            print(futureClasses.count)
-        }
-        
-        if futureClasses.isEmpty || !isRepeatedClasses {
-            futureClasses.append(selectedLesson)
-            selectedLesson.count = 1
-            return //Возвращаемся к defer и выходим из функции
-        }
-    }
-    
-    func fetchSelectedDay() -> String {
-        let calendar = Calendar.autoupdatingCurrent
-        let date = tappedDay.selectedDate
-//        let dayOfWeek = calendar.dateComponents([.day, .weekday, .month], from: date)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMM"
-        let weekDay = dateFormatter.string(from: date)
-        return weekDay
-    }
-    
-    func updateImageView(_ lesson: Schedule) {
-        styleImageView.image = UIImage(named: lesson.name)
+            styleImageView.image = UIImage(named: currentClass.name)
     }
 }
 
+
 //MARK: - Layout configuration
-extension DetailScreenVC {
+extension DetailScreenView {
+    
     private func setupViews() {
-        view.backgroundColor = .white
+        self.backgroundColor = .white
         
-        view.addSubview(detailScrollView)
+        self.addSubview(detailScrollView)
         
         detailScrollView.addSubview(detailStackView)
         
@@ -140,17 +95,17 @@ extension DetailScreenVC {
         detailStackView.addArrangedSubview(infoClassesView)
         detailStackView.addArrangedSubview(trainerDetailView)
         
-        view.addSubview(signUpView)
+        self.addSubview(signUpView)
         signUpView.addSubview(signUpButton)
-
+        
     }
     
     private func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            detailScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            detailScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            detailScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            detailScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0),
+            detailScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            detailScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             detailScrollView.bottomAnchor.constraint(equalTo: signUpView.topAnchor, constant: 0)
         ])
         
@@ -164,9 +119,9 @@ extension DetailScreenVC {
         
         NSLayoutConstraint.activate([
             signUpView.topAnchor.constraint(equalTo: detailScrollView.bottomAnchor, constant: 0),
-            signUpView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            signUpView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            signUpView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            signUpView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            signUpView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            signUpView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
         NSLayoutConstraint.activate([

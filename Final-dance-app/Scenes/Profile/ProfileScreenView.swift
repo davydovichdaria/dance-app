@@ -1,15 +1,13 @@
 import UIKit
 
-class ProfileScreenVC: UIViewController {
-
+class ProfileScreenView: UIView {
     
     var classesArchiver = ClassesRepositoryImpl()
-    lazy var classes: [DailyClasses] = classesArchiver.retrive() {
-        didSet {
-            classesTableView.reloadData()
-        }
-    }
     
+    lazy var classes: [DailyClasses] = classesArchiver.retrive()
+    
+    var onClassesChanged: (()->())?
+  
     var profileCardView: UIView = {
         var view = CardView.init()
         view.cardImageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.25).isActive = true
@@ -33,56 +31,48 @@ class ProfileScreenVC: UIViewController {
         return tableView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Profile"
-        view.backgroundColor = Colors().background
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+        self.backgroundColor = Colors().background
         
         setupViews()
         setupConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        classes = classesArchiver.retrive()
-            classesTableView.reloadData()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+extension ProfileScreenView {
+    
     func setupViews() {
-        view.addSubview(profileCardView)
-        view.addSubview(classesTableView)
+        self.addSubview(profileCardView)
+        self.addSubview(classesTableView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            profileCardView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            profileCardView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            profileCardView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0),
+            profileCardView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            profileCardView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 0),
         ])
         
         NSLayoutConstraint.activate([
             classesTableView.topAnchor.constraint(equalTo: profileCardView.bottomAnchor, constant: 10),
-            classesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            classesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            classesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+            classesTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            classesTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            classesTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
-    
-    
-    @objc func lessonDeleted(counter: DeleteView) {
-        classes[counter.index].count = counter.currentValue
-        
-        if counter.currentValue == 0 {
-            classes.remove(at: counter.index)
-        }
-        classesTableView.reloadData()
-        classesArchiver.save(classes)
-    }
-    
-    
 }
 
-extension ProfileScreenVC: UITableViewDelegate, UITableViewDataSource {
+//MARK: - Data Source
+extension ProfileScreenView: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return classes.count
     }
@@ -96,5 +86,17 @@ extension ProfileScreenVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.deleteView.addTarget(self, action: #selector(lessonDeleted), for: .valueChanged)
         return cell
+    }
+    
+    @objc func lessonDeleted(counter: DeleteView) {
+        classes[counter.index].count = counter.currentValue
+        
+        if counter.currentValue == 0 {
+            classes.remove(at: counter.index)
+        }
+        
+        classesTableView.reloadData()
+        onClassesChanged?()
+//        classesArchiver.save(classes)
     }
 }

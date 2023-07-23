@@ -13,14 +13,11 @@ protocol ScreenFactory {
     var di: Di! { get set }
     
     func makeMainTabVC() -> MainTabVC
-    
     func makeMainScreen() -> MainScreenVC
-    
     func makeTrainerScreen() -> TrainersScreenVC
-    
     func makeScheduleScreen() -> ScheduleScreenVC
-
     func makeAboutScreen() -> AboutScreenVC
+    func makeProfileScreen() -> ProfileScreenVC
 }
 
 class ScreenFactoryImpl: ScreenFactory {
@@ -45,6 +42,10 @@ class ScreenFactoryImpl: ScreenFactory {
     
     func makeAboutScreen() -> AboutScreenVC {
         return AboutScreenVC.init()
+    }
+    
+    func makeProfileScreen() -> ProfileScreenVC {
+        return ProfileScreenVC.init()
     }
 }
 
