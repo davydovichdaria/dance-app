@@ -1,6 +1,6 @@
 import UIKit
 
-class AboutScreenVC: UIViewController {
+class AboutScreenView: UIView {
     
     var aboutTableView: UIStackView = {
         var stackView = UIStackView()
@@ -27,16 +27,22 @@ class AboutScreenVC: UIViewController {
         return imageView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = Colors().background
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setupViews()
         setupConstraints()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension AboutScreenView {
+    
     func setupViews() {
-        view.addSubview(aboutTableView)
+        self.addSubview(aboutTableView)
         
 
         aboutTableView.addArrangedSubview(workingHoursTitileLabel)
@@ -48,15 +54,14 @@ class AboutScreenVC: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            aboutTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            aboutTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            aboutTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0)
+            aboutTableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            aboutTableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            aboutTableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 0)
         ])
         
         NSLayoutConstraint.activate([
-            mapImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Screen.width * 0.05),
+            mapImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Screen.width * 0.05),
             mapImageView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 40)
         ])
     }
 }
-

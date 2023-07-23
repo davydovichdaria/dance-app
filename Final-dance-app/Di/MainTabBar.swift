@@ -5,33 +5,42 @@ class MainTabVC: UITabBarController {
     var di = Di()
     
     lazy private var mainVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: MainScreenVC(provider: di.mainProvider))
+        
+        let controller = Di.shared.screenFactory.makeMainScreen()
+        
+        let navigationController = UINavigationController(rootViewController: controller)
         
         let image = UIImage(systemName: "house.fill")
         let selectedImage = UIImage(systemName: "house.fill")
         let tabItem = UITabBarItem.init(title: "Main", image: image, selectedImage: selectedImage)
-        controller.tabBarItem = tabItem
-        return controller
+        navigationController.tabBarItem = tabItem
+        return navigationController
     }()
     
     private var scheduleVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ScheduleScreenVC())
+        
+        let controller = Di.shared.screenFactory.makeScheduleScreen()
+        
+        let navigationController = UINavigationController(rootViewController: ScheduleScreenVC())
         
         let image = UIImage(systemName: "clock")
         let selectedImage = UIImage(systemName: "clock")
         let tabItem = UITabBarItem.init(title: "Schedule", image: image, selectedImage: image)
-        controller.tabBarItem = tabItem
-        return controller
+        navigationController.tabBarItem = tabItem
+        return navigationController
     }()
     
     private var profileVC: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ProfileScreenVC())
+        
+        let controller = Di.shared.screenFactory.makeProfileScreen()
+        
+        let navigationController = UINavigationController(rootViewController: ProfileScreenVC())
         
         let image = UIImage(systemName: "person.crop.circle")
         let selectedImage = UIImage(systemName: "person.crop.circle")
         let tabItem = UITabBarItem.init(title: "Profile", image: image, selectedImage: image)
-        controller.tabBarItem = tabItem
-        return controller
+        navigationController.tabBarItem = tabItem
+        return navigationController
     }()
 
     
