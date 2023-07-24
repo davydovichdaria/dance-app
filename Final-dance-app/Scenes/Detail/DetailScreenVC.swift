@@ -3,21 +3,22 @@ import CalendarKit
 
 class DetailScreenVC: UIViewController {
     
+    private var currentClass: Schedule
+    
+    private var tappedDay: DayViewState
+    
+    var detailProvider: DetailProvider
+    
     private var detailView: DetailScreenView {
         return self.view as! DetailScreenView
     }
     
-    var currentClass: Schedule
-    
-    var tappedDay: DayViewState
-    
-    var classesArchiver = ClassesRepositoryImpl()
-    
-    var profileVC = ProfileScreenVC()
-    
-    init(classes: Schedule, selectedDay: DayViewState) {
+    init(classes: Schedule,
+         selectedDay: DayViewState,
+         detailProvider: DetailProvider) {
         self.currentClass = classes
         self.tappedDay = selectedDay
+        self.detailProvider = detailProvider
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,42 +34,11 @@ class DetailScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        detailView.onSignUpButtonTapped = {
-            self.signUpToWorkout()
+        detailView.onSignUpButtonTapped = { [self] in
+            detailProvider.signUpToWorkout(lesson: currentClass, selectedDay: tappedDay)
+            self.navigationController?.popViewController(animated: true)
         }
         
         detailView.update(currentClass: currentClass, day: tappedDay)
-    }
-    
-    func signUpToWorkout() {
-        var futureClasses = classesArchiver.retrive() //Получили массив из хранилища
-        
-        let selectedLesson = DailyClasses(lesson: currentClass, day: fetchSelectedDay())
-        
-        let isRepeatedClasses = futureClasses.contains { $0.day == selectedLesson.day && $0.lesson.time == selectedLesson.lesson.time}
-        
-        defer {
-            classesArchiver.save(futureClasses)
-            profileVC.profileView.classesTableView.reloadData()
-            print(futureClasses.count)
-        }
-        
-        if futureClasses.isEmpty || !isRepeatedClasses {
-            futureClasses.append(selectedLesson)
-            selectedLesson.count = 1
-            return //Возвращаемся к defer и выходим из функции
-        }
-    }
-    
-    func fetchSelectedDay() -> String {
-        let calendar = Calendar.autoupdatingCurrent
-        
-        let date = tappedDay.selectedDate
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMM"
-        
-        let weekDay = dateFormatter.string(from: date)
-        return weekDay
     }
 }

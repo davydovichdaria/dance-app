@@ -1,12 +1,5 @@
 import UIKit
-
-protocol ScheduleApiClient {
-    
-}
-
-class ScheduleApiClientImpl: ScheduleApiClient {
-    
-}
+import CalendarKit
 
 protocol ScreenFactory {
     
@@ -18,6 +11,7 @@ protocol ScreenFactory {
     func makeScheduleScreen() -> ScheduleScreenVC
     func makeAboutScreen() -> AboutScreenVC
     func makeProfileScreen() -> ProfileScreenVC
+    func makeDetailScreen(classes: Schedule, selectedDay: DayViewState) -> DetailScreenVC
 }
 
 class ScreenFactoryImpl: ScreenFactory {
@@ -37,7 +31,7 @@ class ScreenFactoryImpl: ScreenFactory {
     }
     
     func makeScheduleScreen() -> ScheduleScreenVC {
-        return ScheduleScreenVC.init()
+        return ScheduleScreenVC.init(scheduleProvider: di.scheduleProvider)
     }
     
     func makeAboutScreen() -> AboutScreenVC {
@@ -46,6 +40,10 @@ class ScreenFactoryImpl: ScreenFactory {
     
     func makeProfileScreen() -> ProfileScreenVC {
         return ProfileScreenVC.init()
+    }
+    
+    func makeDetailScreen(classes: Schedule, selectedDay: DayViewState) -> DetailScreenVC {
+        return DetailScreenVC(classes: classes, selectedDay: selectedDay, detailProvider: di.detailProvider)
     }
 }
 
@@ -59,12 +57,15 @@ class Di {
     
     let classesRepository: ClassesRepository
     
+    let dayService: DayService
+    
     var screenFactory: ScreenFactory
     
     init() {
         scheduleApiClient = ScheduleApiClientImpl()
         trainersApiClient = TrainersApiClientImpl()
         classesRepository = ClassesRepositoryImpl()
+        dayService = DayServiceImpl()
         screenFactory = ScreenFactoryImpl()
         
         screenFactory.di = self
@@ -74,7 +75,17 @@ class Di {
     var mainProvider: MainProviderImpl {
         return MainProviderImpl.init(repository: classesRepository)
     }
+    
+    var scheduleProvider: ScheduleProviderImpl {
+        return ScheduleProviderImpl(dayService: dayService, scheduleApi: scheduleApiClient)
+    }
+    
+    var detailProvider: DetailProviderImpl {
+        return DetailProviderImpl(repository: classesRepository)
+    }
 }
+
+
 
 extension Di {
     func makeWindowWithController(scene: UIWindowScene) -> UIWindow {

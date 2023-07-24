@@ -21,7 +21,7 @@ class MainTabVC: UITabBarController {
         
         let controller = Di.shared.screenFactory.makeScheduleScreen()
         
-        let navigationController = UINavigationController(rootViewController: ScheduleScreenVC())
+        let navigationController = UINavigationController(rootViewController: controller)
         
         let image = UIImage(systemName: "clock")
         let selectedImage = UIImage(systemName: "clock")
@@ -34,7 +34,7 @@ class MainTabVC: UITabBarController {
         
         let controller = Di.shared.screenFactory.makeProfileScreen()
         
-        let navigationController = UINavigationController(rootViewController: ProfileScreenVC())
+        let navigationController = UINavigationController(rootViewController: controller)
         
         let image = UIImage(systemName: "person.crop.circle")
         let selectedImage = UIImage(systemName: "person.crop.circle")
@@ -42,7 +42,6 @@ class MainTabVC: UITabBarController {
         navigationController.tabBarItem = tabItem
         return navigationController
     }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()

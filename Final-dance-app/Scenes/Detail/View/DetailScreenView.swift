@@ -73,13 +73,11 @@ class DetailScreenView: UIView {
     
 //MARK: - Public
     func update(currentClass: Schedule, day: DayViewState) {
-
             infoClassesView.update(currentClass, day: day)
             trainerDetailView.update(currentClass)
             styleImageView.image = UIImage(named: currentClass.name)
     }
 }
-
 
 //MARK: - Layout configuration
 extension DetailScreenView {
@@ -97,11 +95,9 @@ extension DetailScreenView {
         
         self.addSubview(signUpView)
         signUpView.addSubview(signUpButton)
-        
     }
     
     private func setupConstraints() {
-        
         NSLayoutConstraint.activate([
             detailScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0),
             detailScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
