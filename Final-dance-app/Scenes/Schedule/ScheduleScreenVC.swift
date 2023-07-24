@@ -51,7 +51,7 @@ class ScheduleScreenVC: UIViewController {
     }
     
     func showDetailClasses(_ classes: Schedule, _ date: DayViewState) {
-        let controller = DetailScreenVC(classes: classes, selectedDay: date)
+        let controller = Di.shared.screenFactory.makeDetailScreen(classes: classes, selectedDay: date)
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }

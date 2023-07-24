@@ -1,4 +1,5 @@
 import UIKit
+import CalendarKit
 
 protocol ScreenFactory {
     
@@ -10,6 +11,7 @@ protocol ScreenFactory {
     func makeScheduleScreen() -> ScheduleScreenVC
     func makeAboutScreen() -> AboutScreenVC
     func makeProfileScreen() -> ProfileScreenVC
+    func makeDetailScreen(classes: Schedule, selectedDay: DayViewState) -> DetailScreenVC
 }
 
 class ScreenFactoryImpl: ScreenFactory {
@@ -38,6 +40,10 @@ class ScreenFactoryImpl: ScreenFactory {
     
     func makeProfileScreen() -> ProfileScreenVC {
         return ProfileScreenVC.init()
+    }
+    
+    func makeDetailScreen(classes: Schedule, selectedDay: DayViewState) -> DetailScreenVC {
+        return DetailScreenVC(classes: classes, selectedDay: selectedDay, detailProvider: di.detailProvider)
     }
 }
 
@@ -73,22 +79,13 @@ class Di {
     var scheduleProvider: ScheduleProviderImpl {
         return ScheduleProviderImpl(dayService: dayService, scheduleApi: scheduleApiClient)
     }
-}
-
-protocol ScheduleProvider {
-    var dayService: DayService { get set }
-    var scheduleApi: ScheduleApiClient { get set }
-}
-
-class ScheduleProviderImpl: ScheduleProvider {
-    var dayService: DayService
-    var scheduleApi: ScheduleApiClient
     
-    init(dayService: DayService, scheduleApi: ScheduleApiClient) {
-        self.dayService = dayService
-        self.scheduleApi = scheduleApi
+    var detailProvider: DetailProviderImpl {
+        return DetailProviderImpl(repository: classesRepository)
     }
 }
+
+
 
 extension Di {
     func makeWindowWithController(scene: UIWindowScene) -> UIWindow {

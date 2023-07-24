@@ -59,7 +59,7 @@ class CardView: UIView {
     }
 }
 
-//MARK: -Layout configuration
+//MARK: - Layout configuration
 extension CardView {
     
     private func setupViews() {

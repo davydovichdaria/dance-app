@@ -32,7 +32,7 @@ final class NoClassesView: UIView {
     }
 }
 
-//MARK: -Layout configuration
+//MARK: - Layout configuration
 extension NoClassesView {
     
     private func setupViews() {

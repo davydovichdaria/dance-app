@@ -22,7 +22,6 @@ final class MainScreenVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         createCustomNavigationBar()
@@ -48,7 +47,6 @@ final class MainScreenVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         let futureClasses = mainProvider.repository.retrive()
