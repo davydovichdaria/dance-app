@@ -46,6 +46,7 @@ final class ClassesTableViewCell: UITableViewCell {
     }()
     
     private var timeLabel = Label(style: .time, text: "11:00")
+    
     private var durationLabel = Label(style: .descriptionSmall, text: "60 min")
     
     private var infoClassesStackView: UIStackView = {
@@ -61,8 +62,11 @@ final class ClassesTableViewCell: UITableViewCell {
     }()
     
     private var nameLabel = Label(style: .title, text: "Girly choreo (beginner)")
+    
     private var typeLabel = Label(style: .descriptionSmall, text: "Group lesson")
+    
     private var dayLabel = Label(style: .description, text: "default day")
+    
     private var teacherLabel = Label(style: .descriptionSmall, text: "Veronica")
     
     private var deleteStackView: UIStackView = {
@@ -75,7 +79,7 @@ final class ClassesTableViewCell: UITableViewCell {
         return stackView
     }()
     
-     var deleteView = DeleteView()
+    var deleteView = DeleteView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -93,7 +97,6 @@ final class ClassesTableViewCell: UITableViewCell {
         contentView.addSubview(scheduleContainerStackView)
         
         deleteView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         scheduleContainerStackView.addArrangedSubview(bulletStackView)
         scheduleContainerStackView.addArrangedSubview(timeStackView)
@@ -129,16 +132,17 @@ final class ClassesTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             deleteStackView.centerYAnchor.constraint(equalTo: infoClassesStackView.centerYAnchor)
         ])
-
     }
     
-    //MARK: - Public
-    func update(_ schedule: DailyClasses) {
+//MARK: - Public
+    func update(_ schedule: DailyClasses, index: Int) {
         timeLabel.text = schedule.lesson.time
         nameLabel.text = schedule.lesson.name
         typeLabel.text = schedule.lesson.type
         dayLabel.text = schedule.day
         teacherLabel.text = schedule.lesson.teacher
         markView.backgroundColor = UIColor(named: schedule.lesson.mark)
+        
+        deleteView.index = index
     }
 }

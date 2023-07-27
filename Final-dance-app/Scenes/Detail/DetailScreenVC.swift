@@ -38,7 +38,6 @@ class DetailScreenVC: UIViewController {
             detailProvider.signUpToWorkout(lesson: currentClass, selectedDay: tappedDay)
             self.navigationController?.popViewController(animated: true)
         }
-        
         detailView.update(currentClass: currentClass, day: tappedDay)
     }
 }

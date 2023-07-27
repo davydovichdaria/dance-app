@@ -2,9 +2,6 @@ import Foundation
 import CalendarKit
 
 protocol DetailProvider {
-    
-    var repository: ClassesRepository { get set }
-    
     func signUpToWorkout(lesson: Schedule, selectedDay: DayViewState)
 }
 
@@ -30,12 +27,12 @@ class DetailProviderImpl: DetailProvider {
         if futureClasses.isEmpty || !isRepeatedClasses {
             futureClasses.append(selectedLesson)
             selectedLesson.count = 1
-            return //Возвращаемся к defer и выходим из функции
+            return
         }
     }
-    
+
+//Private logic
     func fetchSelectedDay(selectedDay: DayViewState) -> String {
-        
         let date = selectedDay.selectedDate
 
         let dateFormatter = DateFormatter()

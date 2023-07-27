@@ -28,28 +28,20 @@ class ScheduleScreenVC: UIViewController {
 
         scheduleView.calendarState.subscribe(client: self)
     
-        let endpoint = scheduleProvider.dayService.initialLoading()
-        fetchDaySchedule(endpoint: endpoint)
-
+        let endpoint = scheduleProvider.fetchEndpoint()
+        scheduleProvider.fetchClasses(endpoint)
+        
+        scheduleProvider.onClassesLoaded = { schedule in
+            self.scheduleView.scheduleTableView.update(schedule)
+            self.scheduleView.scheduleTableView.reloadData()
+        }
+        
         // Navigation
         scheduleView.scheduleTableView.onClassesCellSelected = { classes in
             self.showDetailClasses(classes, self.scheduleView.calendarState)
         }
     }
-    
-    func fetchDaySchedule(endpoint: Endpoint) {
-        
-        scheduleProvider.scheduleApi.fetchSchedule(endpoint: endpoint) { result in
-            switch result {
-            case .success(let schedule):
-                self.scheduleView.scheduleTableView.update(schedule)
-                self.scheduleView.scheduleTableView.reloadData()
-            case .failure(_):
-                print("Some error")
-            }
-        }
-    }
-    
+
     func showDetailClasses(_ classes: Schedule, _ date: DayViewState) {
         let controller = Di.shared.screenFactory.makeDetailScreen(classes: classes, selectedDay: date)
         self.navigationController?.pushViewController(controller, animated: true)
@@ -64,7 +56,7 @@ extension ScheduleScreenVC: DayViewStateUpdating {
         let calendar = Calendar.autoupdatingCurrent
         let dayOfWeek = calendar.component(.weekday, from: newDate)
         
-        let endpoint = scheduleProvider.dayService.fetchDailySchedule(day: dayOfWeek)
-        self.fetchDaySchedule(endpoint: endpoint)
+        let endpoint = scheduleProvider.fetchEndpoint(dayOfWeek)
+        scheduleProvider.fetchClasses(endpoint)
     }
 }
