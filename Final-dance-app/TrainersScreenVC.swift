@@ -1,16 +1,15 @@
 import UIKit
 
 class TrainersScreenVC: UIViewController {
-    
-    private var trainersAPI: TrainersApiClient
+
+    var trainersProvider: TrainersProvider
     
     var trainersView: TrainersScreenView {
         return self.view as! TrainersScreenView
     }
     
-    init(trainersAPI: TrainersApiClient) {
-        self.trainersAPI = trainersAPI
-        
+    init(trainersProvider: TrainersProvider) {
+        self.trainersProvider = trainersProvider
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -26,23 +25,15 @@ class TrainersScreenVC: UIViewController {
         super.viewDidLoad()
         title = "Trainers"
         
-        fetchTrainers(endpoint: TrainersEndpoint.getTrainers)
+        trainersProvider.fetchTrainers()
+        
+        trainersProvider.onTrainersLoaded = { trainers in
+            self.trainersView.trainers = trainers
+            self.trainersView.trainersTableView.reloadData()
+        }
         
         trainersView.onScheduleButtonTapped = {
             self.tabBarController?.selectedIndex = 1
-        }
-    }
-    
-    func fetchTrainers(endpoint: Endpoint) {
-        
-        trainersAPI.fetchSchedule(endpoint: endpoint) { result in
-            switch result {
-            case .success(let trainers):
-                self.trainersView.trainers = trainers
-                self.trainersView.trainersTableView.reloadData()
-            case .failure(_):
-                print("Error")
-            }
         }
     }
 }

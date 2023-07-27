@@ -71,11 +71,11 @@ class DetailScreenView: UIView {
         onSignUpButtonTapped?()
     }
     
-//MARK: - Public
+    //MARK: - Public
     func update(currentClass: Schedule, day: DayViewState) {
-            infoClassesView.update(currentClass, day: day)
-            trainerDetailView.update(currentClass)
-            styleImageView.image = UIImage(named: currentClass.name)
+        infoClassesView.update(currentClass, day: day)
+        trainerDetailView.update(currentClass)
+        styleImageView.image = UIImage(named: currentClass.name)
     }
 }
 
@@ -84,7 +84,6 @@ extension DetailScreenView {
     
     private func setupViews() {
         self.backgroundColor = .white
-        
         self.addSubview(detailScrollView)
         
         detailScrollView.addSubview(detailStackView)

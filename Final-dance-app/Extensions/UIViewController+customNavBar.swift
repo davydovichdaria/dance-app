@@ -6,7 +6,8 @@ extension UIViewController {
     func createCustomNavigationBar()  {
         let navigationBar = navigationController?.navigationBar
         let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.shadowColor = .gray
+        navigationBarAppearance.shadowColor = .gray.withAlphaComponent(0.5)
+        navigationBarAppearance.backgroundColor = .white
         navigationBar?.scrollEdgeAppearance = navigationBarAppearance
     }
     
