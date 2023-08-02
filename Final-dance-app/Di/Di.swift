@@ -47,10 +47,18 @@ class Di {
 }
 
 extension Di {
+//    func makeWindowWithController(scene: UIWindowScene) -> UIWindow {
+//        let window = UIWindow.init(windowScene: scene)
+//
+//        let rootVC = screenFactory.makeMainTabVC()
+//        window.rootViewController = rootVC
+//        return window
+//    }
+    
     func makeWindowWithController(scene: UIWindowScene) -> UIWindow {
         let window = UIWindow.init(windowScene: scene)
         
-        let rootVC = screenFactory.makeMainTabVC()
+        let rootVC = screenFactory.makeAuthorizationScreen()
         window.rootViewController = rootVC
         return window
     }

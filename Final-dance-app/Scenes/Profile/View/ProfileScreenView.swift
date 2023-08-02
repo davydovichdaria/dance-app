@@ -30,7 +30,7 @@ class ProfileScreenView: UIView {
   
     var profileCardView: UIView = {
         var view = CardView.init()
-        view.backgroundColor = Colors().background
+        view.backgroundColor = Colors.background
         view.cardImageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.25).isActive = true
         view.cardImageView.layer.cornerRadius = 15
         view.cardImageView.clipsToBounds = true
@@ -40,7 +40,7 @@ class ProfileScreenView: UIView {
     
     lazy var classesTableView: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = Colors().background
+        tableView.backgroundColor = Colors.background
         tableView.allowsSelection = false
         tableView.separatorStyle = .none
         
@@ -54,11 +54,10 @@ class ProfileScreenView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = Colors().background
+        self.backgroundColor = Colors.background
         
         setupViews()
         setupConstraints()
-//        update()
     }
     
     required init?(coder: NSCoder) {
@@ -78,7 +77,7 @@ class ProfileScreenView: UIView {
 extension ProfileScreenView {
     
     func setupViews() {
-        self.backgroundColor = Colors().background
+        self.backgroundColor = Colors.background
         self.addSubview(emptyView)
         self.addSubview(profileCardView)
         self.addSubview(classesTableView)

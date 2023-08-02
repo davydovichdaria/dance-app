@@ -24,7 +24,7 @@ class MainScreenView: UIView {
     private let menuScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
-        scrollView.backgroundColor = Colors().background
+        scrollView.backgroundColor = Colors.background
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -52,7 +52,7 @@ class MainScreenView: UIView {
         layout.scrollDirection = .horizontal
         
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = Colors().background
+        collectionView.backgroundColor = Colors.background
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(ClassesCollectionViewCell.self, forCellWithReuseIdentifier: ClassesCollectionViewCell.reuseId)
         collectionView.heightAnchor.constraint(equalToConstant: Screen.width * 0.35).isActive = true

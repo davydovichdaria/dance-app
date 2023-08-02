@@ -9,7 +9,7 @@ class TrainersScreenView: UIView {
     lazy var trainersTableView: UITableView = {
         var tableView = UITableView()
         
-        tableView.backgroundColor = Colors().background
+        tableView.backgroundColor = Colors.background
         
         tableView.dataSource = self
         tableView.delegate = self

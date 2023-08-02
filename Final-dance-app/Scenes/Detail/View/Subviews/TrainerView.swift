@@ -4,7 +4,7 @@ final class TrainerDetailView: UIView {
     
     private var containerStackView: UIStackView = {
         var stackView = UIStackView()
-        stackView.backgroundColor = Colors().background
+        stackView.backgroundColor = Colors.background
         stackView.widthAnchor.constraint(equalToConstant: Screen.width).isActive = true
         stackView.axis = .vertical
         stackView.spacing = 10

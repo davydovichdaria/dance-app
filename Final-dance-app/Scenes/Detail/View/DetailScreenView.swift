@@ -8,7 +8,7 @@ class DetailScreenView: UIView {
     lazy private var detailScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
-        scrollView.backgroundColor = Colors().background
+        scrollView.backgroundColor = Colors.background
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()

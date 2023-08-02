@@ -51,7 +51,7 @@ class ContactsTableViewCell: UITableViewCell {
 extension ContactsTableViewCell {
     func setupViews() {
         contentView.addSubview(containerStackView)
-        contentView.backgroundColor = Colors().background
+        contentView.backgroundColor = Colors.background
         
         containerStackView.addArrangedSubview(contactsLabel)
         containerStackView.addArrangedSubview(phoneTitleLabel)
