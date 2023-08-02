@@ -7,10 +7,19 @@ class AuthorizationScreenView: UIView {
     var onEnterButtonTapped: (()->())?
     var onRegisterButtonTapped: (()->())?
     
-    var containerView: UIStackView = {
+//    var containerView: UIStackView = {
+//        var stackView = UIStackView()
+//        stackView.axis = .vertical
+//        stackView.alignment = .center
+//        stackView.distribution = .equalCentering
+//        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        return stackView
+//    }()
+    
+    var loginDetailsStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 30
+        stackView.spacing = 20
         stackView.alignment = .center
         stackView.distribution = .equalCentering
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,17 +47,16 @@ class AuthorizationScreenView: UIView {
         textField.textAlignment = .left
         textField.widthAnchor.constraint(equalToConstant: 250).isActive = true
         textField.borderStyle = .roundedRect
-//        textField.isSecureTextEntry = true
+        textField.isSecureTextEntry = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
     
     var registerButton: UIButton = {
         var button = Button(style: .purpleBackgroundButton, text: "Register")
         button.addTarget(self, action: #selector(registerScreen), for: .touchUpInside)
         button.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -57,7 +65,7 @@ class AuthorizationScreenView: UIView {
         var button = Button(style: .purpleBackgroundButton, text: "Sign in")
         button.addTarget(self, action: #selector(createScreen), for: .touchUpInside)
         button.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -67,7 +75,6 @@ class AuthorizationScreenView: UIView {
         label.textColor = .systemRed
         return label
     }()
-    
     
     @objc func registerScreen() {
         onRegisterButtonTapped?()
@@ -93,25 +100,37 @@ class AuthorizationScreenView: UIView {
     func setupViews() {
         self.backgroundColor = Colors.background
         
-        self.addSubview(containerView)
+        self.addSubview(loginDetailsStackView)
         
-        containerView.addArrangedSubview(titleLabel)
-        containerView.addArrangedSubview(descriptionLabel)
-        containerView.addArrangedSubview(loginTextField)
-        containerView.addArrangedSubview(passwordTextField)
-        containerView.addArrangedSubview(errorLabel)
-        containerView.addArrangedSubview(enterButton)
-        containerView.addArrangedSubview(registerButton)
+        loginDetailsStackView.addArrangedSubview(titleLabel)
+        loginDetailsStackView.addArrangedSubview(descriptionLabel)
+        loginDetailsStackView.addArrangedSubview(loginTextField)
+        loginDetailsStackView.addArrangedSubview(passwordTextField)
+        
+        self.addSubview(errorLabel)
+        self.addSubview(enterButton)
+        self.addSubview(registerButton)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-//            containerView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            containerView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-//            containerView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-//            containerView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            loginDetailsStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -(Screen.width * 0.2)),
+            loginDetailsStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            errorLabel.topAnchor.constraint(equalTo: loginDetailsStackView.bottomAnchor, constant: 20),
+            errorLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            enterButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 10),
+            enterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            registerButton.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 20),
+            registerButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
         ])
     }
 }

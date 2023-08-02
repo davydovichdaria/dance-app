@@ -18,8 +18,8 @@ extension UIViewController {
         
         let imageView = UIImageView()
         imageView.image = UIImage(named: image)
-        imageView.layer.cornerRadius = imageView.frame.height / 2
-        imageView.frame = CGRect(x: (view.frame.width / 2 - 17), y: 2, width: 34, height: 34)
+//        imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.frame = CGRect(x: (view.frame.width / 2 - 35), y: 0, width: 70, height: 34)
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
         

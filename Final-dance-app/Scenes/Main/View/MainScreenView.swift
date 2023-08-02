@@ -38,7 +38,7 @@ class MainScreenView: UIView {
         return stackView
     }()
     
-    private var cardView = CardView()
+     var cardView = CardView()
     
     private let classesLabel = Label(style: .title, text: "My classes")
     

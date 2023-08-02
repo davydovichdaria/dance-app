@@ -2,6 +2,8 @@ import UIKit
 
 final class MainScreenVC: UIViewController {
     
+    var user = UserService().fetchUser()
+    
     var mainView: MainScreenView {
         return self.view as! MainScreenView
     }
@@ -28,6 +30,8 @@ final class MainScreenVC: UIViewController {
         
         let menuNavigationView = createCustomTitleView(image: "Studio label")
         navigationItem.titleView = menuNavigationView
+        
+        mainView.cardView.update(user: self.user)
         
         mainView.update(mainProvider.repository.retrive())
         

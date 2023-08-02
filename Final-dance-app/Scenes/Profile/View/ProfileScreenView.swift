@@ -7,6 +7,8 @@ enum ClassesState {
 
 class ProfileScreenView: UIView {
     
+    var user = User()
+    
     var classes: [DailyClasses]!
     
     var state: ClassesState = .noData {
@@ -28,16 +30,14 @@ class ProfileScreenView: UIView {
     
     var emptyView = EmptyView.loadFromNib()
   
-    var profileCardView: UIView = {
+    lazy var profileCardView: UIView = {
         var view = CardView.init()
         view.backgroundColor = Colors.background
-        view.cardImageView.heightAnchor.constraint(equalToConstant: Screen.width * 0.25).isActive = true
-        view.cardImageView.layer.cornerRadius = 15
-        view.cardImageView.clipsToBounds = true
+        view.update(user: self.user)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     lazy var classesTableView: UITableView = {
         var tableView = UITableView()
         tableView.backgroundColor = Colors.background
