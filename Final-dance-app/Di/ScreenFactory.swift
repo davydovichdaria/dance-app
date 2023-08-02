@@ -5,6 +5,8 @@ protocol ScreenFactory {
     
     var di: Di! { get set }
     
+    func makeAuthorizationScreen() -> AuthorizationScreenVC
+    
     func makeMainTabVC() -> MainTabVC
     func makeMainScreen() -> MainScreenVC
     func makeTrainerScreen() -> TrainersScreenVC
@@ -17,6 +19,10 @@ protocol ScreenFactory {
 class ScreenFactoryImpl: ScreenFactory {
     
     weak var di: Di!
+    
+    func makeAuthorizationScreen() -> AuthorizationScreenVC {
+        return AuthorizationScreenVC()
+    }
     
     func makeMainTabVC() -> MainTabVC {
         return MainTabVC()

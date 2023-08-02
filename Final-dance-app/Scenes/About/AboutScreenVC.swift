@@ -13,7 +13,7 @@ class AboutScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "About"
-        view.backgroundColor = Colors().background
+        view.backgroundColor = Colors.background
     }  
 }
 

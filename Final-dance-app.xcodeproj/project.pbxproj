@@ -43,6 +43,9 @@
 		62A885892A71C2F10014B63E /* UIView+loadNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A885882A71C2F10014B63E /* UIView+loadNib.swift */; };
 		62A8858B2A72F1A80014B63E /* EmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A8858A2A72F1A80014B63E /* EmptyView.xib */; };
 		62A8858D2A72F1DF0014B63E /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A8858C2A72F1DF0014B63E /* EmptyView.swift */; };
+		62A885B62A792F7A0014B63E /* AuthorizationScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A885B52A792F7A0014B63E /* AuthorizationScreenVC.swift */; };
+		62A885B82A793A240014B63E /* AuthorizationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A885B72A793A240014B63E /* AuthorizationScreenView.swift */; };
+		62A885BA2A7949070014B63E /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A885B92A7949070014B63E /* KeychainManager.swift */; };
 		62EAD8AA2A332296005DF467 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8A92A332296005DF467 /* AppDelegate.swift */; };
 		62EAD8AC2A332296005DF467 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8AB2A332296005DF467 /* SceneDelegate.swift */; };
 		62EAD8AE2A332296005DF467 /* MainScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EAD8AD2A332296005DF467 /* MainScreenVC.swift */; };
@@ -106,6 +109,9 @@
 		62A885882A71C2F10014B63E /* UIView+loadNib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+loadNib.swift"; sourceTree = "<group>"; };
 		62A8858A2A72F1A80014B63E /* EmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyView.xib; sourceTree = "<group>"; };
 		62A8858C2A72F1DF0014B63E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		62A885B52A792F7A0014B63E /* AuthorizationScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationScreenVC.swift; sourceTree = "<group>"; };
+		62A885B72A793A240014B63E /* AuthorizationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationScreenView.swift; sourceTree = "<group>"; };
+		62A885B92A7949070014B63E /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		62EAD8A62A332296005DF467 /* Final-dance-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Final-dance-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62EAD8A92A332296005DF467 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		62EAD8AB2A332296005DF467 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -234,6 +240,7 @@
 		623F111D2A5CAE7E00301F2A /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				62A885B42A792F2E0014B63E /* Authorization */,
 				623F110E2A5CA02D00301F2A /* Main */,
 				623F11092A5B04DE00301F2A /* Trainers */,
 				6248F6192A57199800B51D64 /* About */,
@@ -329,6 +336,15 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		62A885B42A792F2E0014B63E /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				62A885B52A792F7A0014B63E /* AuthorizationScreenVC.swift */,
+				62A885B72A793A240014B63E /* AuthorizationScreenView.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
 		62EAD89D2A332296005DF467 = {
 			isa = PBXGroup;
 			children = (
@@ -387,6 +403,7 @@
 				623F11522A65BE1B00301F2A /* ClassesRepository.swift */,
 				6248F5ED2A4E235400B51D64 /* API */,
 				62EAD8C02A334248005DF467 /* Models */,
+				62A885B92A7949070014B63E /* KeychainManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -561,6 +578,8 @@
 				62A8858D2A72F1DF0014B63E /* EmptyView.swift in Sources */,
 				62A885722A6D8BE60014B63E /* ScheduleScreenView.swift in Sources */,
 				62EAD8AE2A332296005DF467 /* MainScreenVC.swift in Sources */,
+				62A885B62A792F7A0014B63E /* AuthorizationScreenVC.swift in Sources */,
+				62A885BA2A7949070014B63E /* KeychainManager.swift in Sources */,
 				62A8857C2A6DC0EE0014B63E /* DetailProvider.swift in Sources */,
 				62EAD9FD2A4DD60D005DF467 /* HTTPMethods.swift in Sources */,
 				6248F5F72A537DC100B51D64 /* Days.swift in Sources */,
@@ -589,6 +608,7 @@
 				62EAD8E52A38DF2B005DF467 /* Label.swift in Sources */,
 				623F119A2A6B0A7E00301F2A /* MainScreenView.swift in Sources */,
 				6248F60C2A56E44B00B51D64 /* ContactsTableViewCell.swift in Sources */,
+				62A885B82A793A240014B63E /* AuthorizationScreenView.swift in Sources */,
 				6248F5EF2A4E236D00B51D64 /* ScheduleAPI.swift in Sources */,
 				62EAD9F52A4DAAD0005DF467 /* ScheduleTableViewCell.swift in Sources */,
 				62EAD9F32A4DA946005DF467 /* ScheduleTableView.swift in Sources */,

@@ -10,7 +10,7 @@ class TrainersTableViewCell: UITableViewCell {
         var view = UIView()
         view.heightAnchor.constraint(equalToConstant: Screen.width).isActive = true
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Colors().background
+        view.backgroundColor = Colors.background
         return view
     }()
     
@@ -30,7 +30,7 @@ class TrainersTableViewCell: UITableViewCell {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = Colors().background
+        collectionView.backgroundColor = Colors.background
         
         collectionView.register(TrainersCollectionViewCell.self, forCellWithReuseIdentifier: TrainersCollectionViewCell.reuseId)
         

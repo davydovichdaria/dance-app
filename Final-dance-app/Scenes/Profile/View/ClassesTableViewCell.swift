@@ -93,7 +93,7 @@ final class ClassesTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        contentView.backgroundColor = Colors().background
+        contentView.backgroundColor = Colors.background
         contentView.addSubview(scheduleContainerStackView)
         
         deleteView.translatesAutoresizingMaskIntoConstraints = false
