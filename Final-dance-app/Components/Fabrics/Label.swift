@@ -39,8 +39,6 @@ class Label: UILabel {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    
-    
     func createDespriptionLabel(text: String) {
         self.text = text
         self.font = UIFont.systemFont(ofSize: 16, weight: .regular)

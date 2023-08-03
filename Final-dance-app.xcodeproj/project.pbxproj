@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		621CD1922A7BBBD300881C29 /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621CD1912A7BBBD300881C29 /* DeleteView.swift */; };
 		623F114F2A65BD6F00301F2A /* ClassesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623F114E2A65BD6F00301F2A /* ClassesCollectionViewCell.swift */; };
 		623F11512A65BDCF00301F2A /* NoClassesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623F11502A65BDCF00301F2A /* NoClassesView.swift */; };
 		623F11532A65BE1B00301F2A /* ClassesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623F11522A65BE1B00301F2A /* ClassesRepository.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		621CD1912A7BBBD300881C29 /* DeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
 		623F114E2A65BD6F00301F2A /* ClassesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassesCollectionViewCell.swift; sourceTree = "<group>"; };
 		623F11502A65BDCF00301F2A /* NoClassesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoClassesView.swift; sourceTree = "<group>"; };
 		623F11522A65BE1B00301F2A /* ClassesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassesRepository.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				6248F5F62A537DC100B51D64 /* Days.swift */,
 				62EAD8DD2A379802005DF467 /* Screen.swift */,
 				6248F6012A55C85500B51D64 /* Colors.swift */,
+				621CD1912A7BBBD300881C29 /* DeleteView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				62EAD8F42A3B1299005DF467 /* MainTabBar.swift in Sources */,
 				62EADA042A4DE87E005DF467 /* ScheduleEndpoint.swift in Sources */,
 				62EAD9FB2A4DD4BA005DF467 /* Schedule.swift in Sources */,
+				621CD1922A7BBBD300881C29 /* DeleteView.swift in Sources */,
 				62A885762A6D930B0014B63E /* ProfileScreenView.swift in Sources */,
 				62EAD8DE2A379802005DF467 /* Screen.swift in Sources */,
 			);
