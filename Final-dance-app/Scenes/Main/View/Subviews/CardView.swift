@@ -1,5 +1,7 @@
 import UIKit
 
+
+
 class CardView: UIView {
     
     var cardImageView: UIImageView = {
@@ -18,10 +20,10 @@ class CardView: UIView {
     private var profileImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "Default profile")
-        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 25
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -45,6 +47,24 @@ class CardView: UIView {
         return label
     }()
     
+    let leftClassesTitleLabel: UILabel = {
+        var label = UILabel()
+        label.text = "Left classes on this month:"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let leftClassesCountLabel: UILabel = {
+        var label = UILabel()
+        label.text = "8 classes"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 15, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -57,6 +77,12 @@ class CardView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func update(user: User) {
+        self.personNameLabel.text = user.name
+        self.profileImageView.image = UIImage(named: user.image)
+        self.leftClassesCountLabel.text = "\(user.leftClasses) classes"
+    }
 }
 
 //MARK: - Layout configuration
@@ -67,6 +93,8 @@ extension CardView {
         self.addSubview(profileImageView)
         self.addSubview(personNameLabel)
         self.addSubview(studioNameLabel)
+        self.addSubview(leftClassesTitleLabel)
+        self.addSubview(leftClassesCountLabel)
     }
     
     private func setupConstraints() {
@@ -79,17 +107,27 @@ extension CardView {
         
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: cardImageView.topAnchor, constant: 15),
-            profileImageView.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 15)
+            profileImageView.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
-            personNameLabel.topAnchor.constraint(equalTo: cardImageView.topAnchor, constant: 15),
-            personNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10)
+            personNameLabel.topAnchor.constraint(equalTo: cardImageView.topAnchor, constant: 17),
+            personNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
             studioNameLabel.topAnchor.constraint(equalTo: personNameLabel.bottomAnchor, constant: 0),
-            studioNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10)
+            studioNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            leftClassesTitleLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
+            leftClassesTitleLabel.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            leftClassesCountLabel.topAnchor.constraint(equalTo: leftClassesTitleLabel.bottomAnchor, constant: 5),
+            leftClassesCountLabel.leadingAnchor.constraint(equalTo: cardImageView.leadingAnchor, constant: 20 )
         ])
     }
 }

@@ -10,7 +10,7 @@ class Storage {
     }
 }
 
-class AuthorizationScreenVC: UINavigationController {
+class AuthorizationScreenVC: UIViewController {
     
     var storage = Storage.init(login: "", password: "")
     
@@ -29,8 +29,7 @@ class AuthorizationScreenVC: UINavigationController {
         
         authorizationView.loginTextField.delegate = self
         authorizationView.passwordTextField.delegate = self
-        
-        
+    
         authorizationView.onRegisterButtonTapped = {
             do {
                 let status = try KeychainManager.save(
