@@ -6,7 +6,6 @@ final class DeleteView: UIControl {
     
     private lazy var deleteComponentView: UIStackView = {
         var stackView = UIStackView()
-//        stackView.backgroundColor = UIColor(named: "purple")?.withAlphaComponent(0.5)
         stackView.layer.cornerRadius = 5
         stackView.clipsToBounds = true
         stackView.alignment = .center
@@ -36,8 +35,7 @@ final class DeleteView: UIControl {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    ///Устанавливается значение счетчика
+
     var currentValue: Int = 0 {
         didSet {
             currentValue = currentValue > 0 ? currentValue : 0
