@@ -27,7 +27,6 @@ class Di {
         screenFactory.di = self
     }
     
-    //упаковали провайдер
     var mainProvider: MainProviderImpl {
         return MainProviderImpl.init(repository: classesRepository)
     }
@@ -54,7 +53,7 @@ extension Di {
     func makeWindowWithController(scene: UIWindowScene) -> UIWindow {
         let window = UIWindow.init(windowScene: scene)
         
-        let rootVC = screenFactory.makeAuthorizationScreen()
+        let rootVC = screenFactory.makeMainTabVC()
         window.rootViewController = rootVC
         return window
     }
